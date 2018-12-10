@@ -10,23 +10,67 @@ import UIKit
 import Firebase
 import os.log
 
-class IntroViewController: UIViewController {
+class IntroViewController: UIViewController, DataProtocolClient {
     let colors = [#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1), #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)]
+    
+
     
     @IBOutlet weak var overviewTab: UITabBarItem!
     @IBOutlet weak var viewForLayer: UIView!
+    @IBOutlet weak var moodLabel: UILabel!
     
     //wonder if this is why I was having trouble???
     var layer: CALayer {
         return viewForLayer.layer
     }
     
+    //putting the things I need to edit so I can access from the update function
+    //in this context, this is the main label so I'm going to use it as the base, actually
+    let bpmvalue = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+    //gradient layer. colour will need to be based on data
+    let gradLayer = CAGradientLayer()
+    //in this context, this is the main label so I'm going to use it as the base, actually
+    let gsrvalue = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+    //in this context, this is the main label so I'm going to use it as the base, actually
+    let tempvalue = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+    let thermoview = ThermometerView()
+    let heartLayer = CALayer()
+    let heartAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.bounds))
+    let heartPathAnimation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.path))
+    let shapeLayer = CAShapeLayer()
+    
+    var predictedMood:Prediction.moods? = nil
+    var thisPrediction:Prediction? = nil
+    
+    var dataStack: DataStack? {
+        didSet {
+            // this doesn't make the stuff refresh but I should re-factor to match the way the timeline view is done
+            viewForLayer.setNeedsLayout()
+            //adds text each time, need to stop that. Sigh. But if I move them to the top that should work ... or just do an update layer ...
+            updateLayer()
+        }
+    }
+    
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
+    
+    
+    //may need to watch for that changing
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLayer()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        //super.viewDidAppear()
+        updateLayer() // would this get the animation to restart?
+    }
+
     func setUpLayer() { // draws the components
+        //print("in setup layer")
         // navigation, need to add to all frames and probably put in a function
         /*
         let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44))
@@ -50,8 +94,7 @@ class IntroViewController: UIViewController {
         print(layer.frame.width)
         print(layer.frame.height)
         
-        //gradient layer. colour will need to be based on data
-        let gradLayer = CAGradientLayer()
+        
         gradLayer.frame = CGRect(x: -4, y: -24, width: self.view.frame.width+4, height: self.view.frame.height+24)
         gradLayer.colors = [colors[3].cgColor, colors[4].cgColor]
         layer.addSublayer(gradLayer)
@@ -59,7 +102,6 @@ class IntroViewController: UIViewController {
         // this will need to be changed based on data. I wonder when I should do the data getting. and see if I can make it public, when i should recheck it
         
         //draw the heart ... could make it a function?
-        let heartLayer = CALayer()
         let heartw = (layer.frame.width*0.75)
         let hearth = layer.frame.height*0.5
         let heartx = ((layer.frame.width/2)-(heartw/2))+15
@@ -70,7 +112,7 @@ class IntroViewController: UIViewController {
         let bezierPath = UIBezierPath(heartIn: heartLayer.bounds)
 
         //design path in layer
-        let shapeLayer = CAShapeLayer()
+       
         //shapeLayer.path = path.cgPath
         shapeLayer.path = bezierPath.cgPath
         shapeLayer.strokeColor = colors[7].cgColor
@@ -81,12 +123,32 @@ class IntroViewController: UIViewController {
         shapeLayer.shadowRadius = 10.0
         heartLayer.addSublayer(shapeLayer)
         
+        //need to do the beat animation
+        let oldbValue = heartLayer.bounds
+        //ok so I want the animation to be, it gets a little bigger, but stays in the same place
+        let newbValue = CGRect(x: 0, y: 0, width: heartLayer.bounds.width+50, height: heartLayer.bounds.height+50)
+        
+        heartAnimation.fromValue = oldbValue
+        heartAnimation.toValue = newbValue
+        heartAnimation.duration = 1.0
+        heartAnimation.repeatCount = .greatestFiniteMagnitude
+        heartAnimation.autoreverses = true
+        heartLayer.bounds = newbValue
+        
+        let newPath = UIBezierPath(heartIn: heartLayer.bounds)
+        heartPathAnimation.fromValue = shapeLayer.path
+        heartPathAnimation.toValue = newPath.cgPath
+        heartPathAnimation.duration = 1.0
+        heartPathAnimation.repeatCount = .greatestFiniteMagnitude
+        heartPathAnimation.autoreverses = true
+        shapeLayer.path = newPath.cgPath
+        //heartLayer.add(heartAnimation, forKey: #keyPath(CALayer.bounds)) not having this here makes it not do awkward changing
+        
         layer.addSublayer(heartLayer)
         
 
         
-        //in this context, this is the main label so I'm going to use it as the base, actually
-        let bpmvalue = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        
         // you will probably want to set the font (remember to use Dynamic Type!)
         bpmvalue.font = UIFont.preferredFont(forTextStyle: .title1)
         bpmvalue.font = bpmvalue.font.withSize(70)
@@ -135,8 +197,7 @@ class IntroViewController: UIViewController {
         
         layer.addSublayer(dropLayer)
         
-        //in this context, this is the main label so I'm going to use it as the base, actually
-        let gsrvalue = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+
         // you will probably want to set the font (remember to use Dynamic Type!)
         gsrvalue.font = UIFont.preferredFont(forTextStyle: .title1)
         gsrvalue.font = bpmvalue.font.withSize(70)
@@ -161,11 +222,8 @@ class IntroViewController: UIViewController {
         
         // now I need to add the labels for that, but let's see about the thermometer
         // doing that in the designer isn't working. But I can see it.
-        let thermoview = ThermometerView()
         self.view.addSubview(thermoview)
         
-        //in this context, this is the main label so I'm going to use it as the base, actually
-        let tempvalue = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
         // you will probably want to set the font (remember to use Dynamic Type!)
         tempvalue.font = UIFont.preferredFont(forTextStyle: .title1)
         tempvalue.font = bpmvalue.font.withSize(70)
@@ -188,6 +246,101 @@ class IntroViewController: UIViewController {
         templabel.text = "Temp:"
         self.view.addSubview(templabel)
 
+    }
+
+    //updates the layer data.
+    func updateLayer(){
+        if let dataStack = dataStack, let data = dataStack.data, let preds = dataStack.predictions {
+            
+            predictedMood = data[0].returnMoodPrediction(baseline: dataStack.baseline)
+            
+            //also I should see when the last prediction is and save it if it was like X mins ago ...
+            if let predictedMood = predictedMood {
+                print(predictedMood)
+                thisPrediction = Prediction(timecreated: NSDate().timeIntervalSince1970, mood: predictedMood, confirmed: false, note: "", dataPoint: data[0])
+                //false because it's not been confirmed in the popup yet
+                moodLabel.text = "\(predictedMood)"
+                
+                //print(preds[0].timecreated)
+                //print(preds[preds.count-1].timecreated)
+                //oh yeah the predictions aren't sorted because I haven't called them from the database anyway, so I should fix this when I have that done correctly. Maybe I will persist data and then do those things. And I can make the other ones in the past.
+            }
+            
+            bpmvalue.text = "\(data[0].bpm)"
+            //get the prev centre and move the new centre to it
+            bpmvalue.sizeToFit()
+            tempvalue.text = "\(data[0].temp)"
+            //get the prev centre and move the new centre to it
+            tempvalue.sizeToFit()
+            
+            let animDuration = 60/data[0].bpm
+            
+            //change value of heartlayer animation
+            heartAnimation.duration = CFTimeInterval(animDuration)
+            heartPathAnimation.duration = CFTimeInterval(animDuration)
+            heartLayer.removeAllAnimations()
+            shapeLayer.removeAllAnimations()
+            heartLayer.add(heartAnimation, forKey: #keyPath(CALayer.bounds))
+            shapeLayer.add(heartPathAnimation, forKey: #keyPath(CAShapeLayer.path))
+
+            
+            
+            //need to update height of the templayer thing .... not sure how to like scale this.
+            //also right now I'm not looking at this to update it, duh. Add that.
+            //just scale 0-100. Should probably change to make it more similar to what it would be
+            let nlev = data[0].temp.map(from: 0.0...100.0, to: 0...1.0)
+            //print("nlev = \(nlev)")
+            thermoview.level = CGFloat(nlev)
+            var colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor, #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            if(nlev >= 0.1 && nlev < 0.2){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor, #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.2 && nlev < 0.3){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.3 && nlev < 0.4){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.4 && nlev < 0.5){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor, #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.5 && nlev < 0.6){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.6 && nlev < 0.7){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.7 && nlev < 0.8){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,   #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor, #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.8 && nlev < 0.9){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,   #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            if(nlev >= 0.9 && nlev <= 1.0){
+                colorSet = [ #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor, #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor,  #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1).cgColor]
+            }
+            let colorChangeAnimation = CABasicAnimation(keyPath: "colors")
+            colorChangeAnimation.duration = 2.0
+            colorChangeAnimation.toValue = colorSet
+            colorChangeAnimation.fillMode = CAMediaTimingFillMode.forwards
+            colorChangeAnimation.isRemovedOnCompletion = false
+            //gradLayer.add(colorChangeAnimation, forKey: "colorChange")
+            gradLayer.colors = colorSet
+            
+            //and need to make a prediction.
+            //I should put this on a function on physdata
+            //now I can check this
+           
+            //now show it ... ok and how do I add the info to it ... I can probably do that stuff up at the top anyway really
+            
+            
+            
+            //gsrvalue.text = "\(data[0].gsreval)"
+            //gsrvalue.text = "sp"
+            //get the prev centre and move the new centre to it
+            //gsrvalue.sizeToFit()
+            
+        }
     }
     
 }

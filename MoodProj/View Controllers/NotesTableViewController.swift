@@ -9,12 +9,18 @@
 import UIKit
 import os.log
 
-class NotesTableViewController: UITableViewController {
+class NotesTableViewController: UITableViewController, DataProtocolClient {
     //MARK: Properties
     var notes = [Note]()
+    
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(notes)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -22,9 +28,17 @@ class NotesTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        print("view did load")
-        
-        loadSampleNotes()
+        if let dataStack = dataStack, let ns = dataStack.notes {
+            notes = ns
+            print("have dataStack")
+            // but these are just the sample predictions, not the one we theoretically added on the first screen .. oh maybe we didn't.
+            print(notes[0].noteTimeReferenced)
+            
+        }else{
+            
+        }
+        print(notes)
+        //loadSampleNotes()
     }
 
     // MARK: - Table view data source
@@ -139,13 +153,13 @@ class NotesTableViewController: UITableViewController {
             ShowNoteDetail.note = selectedNote
             
         default:
-            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
             
         }
     }
     
     //MARK: Private Methods
-    
+    //moving this to appdelegate.
     private func loadSampleNotes() {
         // make one to load from the DB ... and something to save added notes.
         

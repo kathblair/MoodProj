@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import QuartzCore
 
 struct Rescale<Type : BinaryFloatingPoint> {
     typealias RescaleDomain = (lowerBound: Type, upperBound: Type)
@@ -30,5 +31,24 @@ struct Rescale<Type : BinaryFloatingPoint> {
     
     func rescale(_ x: Type )  -> Type {
         return interpolate( uninterpolate(x) )
+    }
+}
+
+extension CGFloat {
+    func map(from: ClosedRange<CGFloat>, to: ClosedRange<CGFloat>) -> CGFloat {
+        let result = ((self - from.lowerBound) / (from.upperBound - from.lowerBound)) * (to.upperBound - to.lowerBound) + to.lowerBound
+        return result
+    }
+}
+
+extension Double {
+    func map(from: ClosedRange<CGFloat>, to: ClosedRange<CGFloat>) -> Double {
+        return Double(CGFloat(self).map(from: from, to: to))
+    }
+}
+
+extension Float {
+    func map(from: ClosedRange<CGFloat>, to: ClosedRange<CGFloat>) -> Float {
+        return Float(CGFloat(self).map(from: from, to: to))
     }
 }

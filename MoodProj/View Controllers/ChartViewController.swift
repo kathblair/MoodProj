@@ -10,13 +10,18 @@
 //Old, probably don't need
 import UIKit
 
-class ChartViewController: UIViewController {
+class ChartViewController: UIViewController, DataProtocolClient {
 
     /*
     @IBOutlet weak var lineChart: LineChart!
     @IBOutlet weak var curvedlineChart: LineChart!
  */
     @IBOutlet weak var lineChart: LineChart!
+    
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class BasicBarChart: UIView {
+class BasicBarChart: UIView {
     
     /// the width of each bar
     let barWidth: CGFloat = 40.0

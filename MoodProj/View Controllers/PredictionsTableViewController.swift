@@ -9,12 +9,31 @@
 import UIKit
 import os.log
 
-class PredictionsTableViewController: UITableViewController {
+class PredictionsTableViewController: UITableViewController, DataProtocolClient {
     //MARK: Properties
+    
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
+    
     var predictions = [Prediction]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("predictions view did load")
+        
+        if let dataStack = dataStack, let preds = dataStack.predictions {
+            predictions = preds
+            print("have dataStack")
+            print(predictions.count)
+            // but these are just the sample predictions, not the one we theoretically added on the first screen .. oh maybe we didn't.
+            //print(predictions[0].note)
+           
+        }else{
+            //loadSamplePredictions()
+        }
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -22,7 +41,7 @@ class PredictionsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        loadSamplePredictions()
+        //loadSamplePredictions()
         
     }
 
@@ -53,7 +72,7 @@ class PredictionsTableViewController: UITableViewController {
         formatter.dateFormat = "M/d"
         let timeformatter = DateFormatter()
         timeformatter.dateFormat = "h:mm a"
-        let date = Date(timeIntervalSince1970: prediction.timeofprediction)
+        let date = Date(timeIntervalSince1970: prediction.dataPoint.time)
         //the location of all of this is messed up
         cell.dateLabel.text = formatter.string(from: date)
         cell.timeLabel.text = timeformatter.string(from: date)
@@ -108,6 +127,7 @@ class PredictionsTableViewController: UITableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    //this SENDS data to the next one
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         switch(segue.identifier ?? "") {
@@ -136,10 +156,32 @@ class PredictionsTableViewController: UITableViewController {
             
         }
     }
+    
+    //MARK: Actions
+    
+    @IBAction func unwindToPredictionList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? PredictionViewController, let prediction = sourceViewController.prediction {
+            
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Update an existing prediction
+                predictions[selectedIndexPath.row] = prediction
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
+            else {
+                // Add a new prediction. I will actually never be doing this, but whatever
+                let newIndexPath = IndexPath(row: predictions.count, section: 0)
+                predictions.append(prediction)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+            
+            
+        }
+    }
  
     
     //MARK: Private Methods
-    
+    /*
+     //doing this in appdelegate
     private func loadSamplePredictions() {
         // make one to load from the DB ... and one to save from a set of data to a prediction.
         guard let prediction1 = Prediction(timeofprediction: NSDate().timeIntervalSince1970, timecreated: NSDate().timeIntervalSince1970, mood: Prediction.moods.happy, confirmed: true) else {
@@ -155,5 +197,6 @@ class PredictionsTableViewController: UITableViewController {
         
         predictions += [prediction1, prediction2, prediction3]
     }
+     */
 
 }

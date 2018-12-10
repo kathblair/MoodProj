@@ -8,11 +8,21 @@
 
 import UIKit
 
-class NoteViewController: UIViewController {
+class NoteViewController: UIViewController, DataProtocolClient {
+    //MARK: Properties
     @IBOutlet weak var noteDateTimeLabel: UILabel!
     @IBOutlet weak var noteContextTitle: UILabel!
     @IBOutlet weak var noteContextRange: UILabel!
     @IBOutlet weak var noteText: UITextView!
+    @IBOutlet weak var noteSaveButton: UIButton!
+    @IBOutlet weak var noteCancelButton: UIButton!
+    
+    
+    
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
     
     /*
      This value is either passed by `NoteTableViewController` in `prepare(for:sender:)`
@@ -43,6 +53,8 @@ class NoteViewController: UIViewController {
             // need to figure out whether the note is its own thing or a field for the prediction
             noteText.text = note.text
         }
+        //I should probably do something to enable / disable save
+        //updateSaveButtonState()
         
         // Do any additional setup after loading the view.
     }

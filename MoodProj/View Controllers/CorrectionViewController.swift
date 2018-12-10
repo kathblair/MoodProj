@@ -8,7 +8,14 @@
 
 import UIKit
 
-class CorrectionViewController: UIViewController {
+class CorrectionViewController: UIViewController, DataProtocolClient {
+    
+    
+    // or do I want to make the opening view controller do that?
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

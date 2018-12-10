@@ -15,7 +15,11 @@ class ThermometerView: UIView {
     let thermoLayer = CAShapeLayer()
     let levelLayer = CAShapeLayer()
     let maskLayer = CAShapeLayer()
-    @IBInspectable var level: CGFloat = 0.5
+    @IBInspectable var level: CGFloat = 0.5 {
+        didSet {
+            self.setNeedsLayout()
+        }
+    }
     
     var lineWidth: CGFloat{
         return bounds.width/4
@@ -45,6 +49,10 @@ class ThermometerView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
+    }
+    
+    override func layoutSubviews() {
+        buildLevelLayer()
     }
     
     private func setup() {
@@ -120,6 +128,7 @@ class ThermometerView: UIView {
     
     //all of this positioning is really really weird
     private func buildLevelLayer() {
+        print("bulding level layer to: \(level)")
         let path = UIBezierPath()
         path.move(to: CGPoint(x: bounds.minX+35, y:bounds.height+40))
         path.addLine(to: CGPoint(x:bounds.minX+35, y:bounds.height-bounds.height-10))

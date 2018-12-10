@@ -8,7 +8,12 @@
 
 import UIKit
 
-class PredictionsTableViewCell: UITableViewCell {
+class PredictionsTableViewCell: UITableViewCell, DataProtocolClient {
+    
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
     
     //MARK: Properties
     @IBOutlet weak var dateLabel: UILabel!

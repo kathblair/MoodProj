@@ -19,6 +19,10 @@
 		0C31EBFA21A5E33F00FC1131 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBF921A5E33F00FC1131 /* NotesTableViewCell.swift */; };
 		0C31EBFC21A6051500FC1131 /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBFB21A6051500FC1131 /* Prediction.swift */; };
 		0C31EBFE21A63FFB00FC1131 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBFD21A63FFB00FC1131 /* Note.swift */; };
+		0C3AB8B921B60C0600B09059 /* DataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AB8B821B60C0600B09059 /* DataProtocol.swift */; };
+		0C3AB8BB21B71ED700B09059 /* DataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AB8BA21B71ED700B09059 /* DataStack.swift */; };
+		0C3AB8BD21B71F2A00B09059 /* physData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AB8BC21B71F2A00B09059 /* physData.swift */; };
+		0C3AB8BF21B72F5000B09059 /* fbdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AB8BE21B72F5000B09059 /* fbdata.swift */; };
 		0C63E21A21ACB7830089F687 /* PredictionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E21921ACB7830089F687 /* PredictionViewController.swift */; };
 		0C63E21C21ACB7A50089F687 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E21B21ACB7A50089F687 /* NoteViewController.swift */; };
 		0C63E21E21ADD2B80089F687 /* SharedInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E21D21ADD2B80089F687 /* SharedInformation.swift */; };
@@ -61,6 +65,10 @@
 		0C31EBF921A5E33F00FC1131 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		0C31EBFB21A6051500FC1131 /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
 		0C31EBFD21A63FFB00FC1131 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		0C3AB8B821B60C0600B09059 /* DataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProtocol.swift; sourceTree = "<group>"; };
+		0C3AB8BA21B71ED700B09059 /* DataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStack.swift; sourceTree = "<group>"; };
+		0C3AB8BC21B71F2A00B09059 /* physData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = physData.swift; sourceTree = "<group>"; };
+		0C3AB8BE21B72F5000B09059 /* fbdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fbdata.swift; sourceTree = "<group>"; };
 		0C63E21921ACB7830089F687 /* PredictionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionViewController.swift; sourceTree = "<group>"; };
 		0C63E21B21ACB7A50089F687 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		0C63E21D21ADD2B80089F687 /* SharedInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInformation.swift; sourceTree = "<group>"; };
@@ -106,6 +114,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C3AB8C021B72F7500B09059 /* Not Active */ = {
+			isa = PBXGroup;
+			children = (
+				D7E538861F483BBF00D14995 /* BeautifulBarChart.swift */,
+				D7E5388A1F483C4400D14995 /* BasicBarChart.swift */,
+				0CDB00AB21AC928300A5B89F /* LineChart.swift */,
+				0C63E22721AE571B0089F687 /* ScrollBars.swift */,
+				D7E538881F483BF100D14995 /* BarEntry.swift */,
+				0C31EBF321A5E09200FC1131 /* interfacebuilding.swift */,
+			);
+			path = "Not Active";
+			sourceTree = "<group>";
+		};
 		0C63E21821ACB6ED0089F687 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,27 +191,26 @@
 		D7F485331F4AA79300348260 /* MoodProj */ = {
 			isa = PBXGroup;
 			children = (
-				0CDB00B421AC9B7A00A5B89F /* MultiLineChart.swift */,
+				0C3AB8C021B72F7500B09059 /* Not Active */,
+				0C3AB8BA21B71ED700B09059 /* DataStack.swift */,
+				0C3AB8B821B60C0600B09059 /* DataProtocol.swift */,
+				0C3AB8BC21B71F2A00B09059 /* physData.swift */,
 				0C63E21F21ADE2E90089F687 /* IntroView.swift */,
+				0CDB00B421AC9B7A00A5B89F /* MultiLineChart.swift */,
 				0CDB00AC21AC928300A5B89F /* CurveAlgorithm.swift */,
 				0CDB00AA21AC928200A5B89F /* DotCALayer.swift */,
-				0CDB00AB21AC928300A5B89F /* LineChart.swift */,
-				D7E538881F483BF100D14995 /* BarEntry.swift */,
 				0C31EBF121A4B7AD00FC1131 /* Datum.swift */,
-				D7E538861F483BBF00D14995 /* BeautifulBarChart.swift */,
-				D7E5388A1F483C4400D14995 /* BasicBarChart.swift */,
 				0CB08576219B7A29007F2E04 /* scaling.swift */,
 				0CB08578219B81BD007F2E04 /* sorting.swift */,
 				0C31EBE721A492B200FC1131 /* drawing.swift */,
 				0C31EBE921A4961000FC1131 /* IntroVizualization.swift */,
 				0C31EBEB21A496BE00FC1131 /* timelinevizualization.swift */,
-				0C31EBF321A5E09200FC1131 /* interfacebuilding.swift */,
 				0C31EBFB21A6051500FC1131 /* Prediction.swift */,
 				0C31EBFD21A63FFB00FC1131 /* Note.swift */,
 				0C63E21D21ADD2B80089F687 /* SharedInformation.swift */,
 				0C63E22121AE24780089F687 /* Thermometer.swift */,
-				0C63E22721AE571B0089F687 /* ScrollBars.swift */,
 				0C63E22B21AF6E2A0089F687 /* ToolTipView.swift */,
+				0C3AB8BE21B72F5000B09059 /* fbdata.swift */,
 			);
 			name = MoodProj;
 			sourceTree = "<group>";
@@ -341,10 +361,12 @@
 				0C31EBEE21A49BC600FC1131 /* PredictionsTableViewController.swift in Sources */,
 				0C31EBF021A49C9100FC1131 /* IntroViewController.swift in Sources */,
 				D7E5388B1F483C4500D14995 /* BasicBarChart.swift in Sources */,
+				0C3AB8BB21B71ED700B09059 /* DataStack.swift in Sources */,
 				0C31EBEA21A4961000FC1131 /* IntroVizualization.swift in Sources */,
 				0C63E22621AE320A0089F687 /* CorrectionViewController.swift in Sources */,
 				0C31EBFE21A63FFB00FC1131 /* Note.swift in Sources */,
 				0C63E22C21AF6E2A0089F687 /* ToolTipView.swift in Sources */,
+				0C3AB8BD21B71F2A00B09059 /* physData.swift in Sources */,
 				0C31EBEC21A496BE00FC1131 /* timelinevizualization.swift in Sources */,
 				0CDB00AE21AC928300A5B89F /* LineChart.swift in Sources */,
 				0CB08577219B7A29007F2E04 /* scaling.swift in Sources */,
@@ -355,6 +377,7 @@
 				0C63E21A21ACB7830089F687 /* PredictionViewController.swift in Sources */,
 				D7E538751F483B5D00D14995 /* AppDelegate.swift in Sources */,
 				0CDB00AD21AC928300A5B89F /* DotCALayer.swift in Sources */,
+				0C3AB8BF21B72F5000B09059 /* fbdata.swift in Sources */,
 				0C63E22021ADE2E90089F687 /* IntroView.swift in Sources */,
 				0C63E22221AE24780089F687 /* Thermometer.swift in Sources */,
 				0CDB00AF21AC928300A5B89F /* CurveAlgorithm.swift in Sources */,
@@ -362,6 +385,7 @@
 				0C31EBF221A4B7AD00FC1131 /* Datum.swift in Sources */,
 				0CDB00B521AC9B7A00A5B89F /* MultiLineChart.swift in Sources */,
 				0CB08579219B81BD007F2E04 /* sorting.swift in Sources */,
+				0C3AB8B921B60C0600B09059 /* DataProtocol.swift in Sources */,
 				D7E538871F483BBF00D14995 /* BeautifulBarChart.swift in Sources */,
 				0C31EBF621A5E31000FC1131 /* NotesTableViewController.swift in Sources */,
 			);
@@ -510,6 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.moodproj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 			};
@@ -523,8 +548,10 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/MoodProj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"PODS_CONFIGURATION_BUILD_DIR[arch=*]" = "${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.moodproj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 			};

@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class BeautifulBarChart: UIView {
+class BeautifulBarChart: UIView {
 
     let barWidth: CGFloat = 200.0
     

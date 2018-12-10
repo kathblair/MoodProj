@@ -8,7 +8,12 @@
 
 import UIKit
 
-class NotesTableViewCell: UITableViewCell {
+class NotesTableViewCell: UITableViewCell, DataProtocolClient {
+    
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
     
     //MARK: Properties
     @IBOutlet weak var noteDateLabel: UILabel!

@@ -8,8 +8,14 @@
 
 import UIKit
 
-class ConfirmationViewController: UIViewController {
+class ConfirmationViewController: UIViewController, DataProtocolClient {
 
+    //may want to do this stuff in the mail view controller
+    var dataStack: DataStack?
+    func setData(data: DataStack) {
+        self.dataStack = data
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
