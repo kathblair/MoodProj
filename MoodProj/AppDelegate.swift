@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var predictions: [Prediction] = [] // should build my sample ones here
     var notes: [Note] = [] // should build my sample ones here
     var data: [PhysData] = []
+    var dataStack: DataStack?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -29,21 +30,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //need to build this
         //this worked. I think I'll just have problems the first time I want to make some predictions and save them.
-        loadSamplePredictions()
         
         getFireBaseData { (values) -> Void in
             self.data = convertDictToPhysData(values: values)
-            let dataStack = DataStack(data: self.data, predictions: self.predictions, notes: self.notes)
-            //could I reset them here?
+            
+            /*
+            if let savedPredictions = self.dataStack?.loadPredictions() {
+                print("successfully loaded predctions")
+                self.predictions += savedPredictions
+            } else {
+                // Load the sample data.
+                print("couldn't load predictions")
+                self.loadSamplePredictions()
+            }
+             */
+            //initialize with empty predictions ... maybe I should not have this function on the datastack
+            self.dataStack = DataStack(data: self.data, predictions: self.predictions, notes: self.notes)
+            if let dataStack = self.dataStack {
+                //could I reset them here?
+                print("can we do loadpredictions")
+                let savedPredictions = dataStack.loadPredictions() // can I do this? Right now it doesn't need to be on the actual datastack
+                print(savedPredictions)
+                self.loadSamplePredictions()
+                dataStack.predictions = self.predictions
+            }
             if let tab = self.window?.rootViewController as? UITabBarController {
                     for child in tab.viewControllers ?? [] {
                         if let top = child as? DataProtocolClient {
-                            if let dataStack = dataStack {
+                            if let dataStack = self.dataStack {
                                 top.setData(data: dataStack)
                             }
                         }
                  }
             }
+    
+            
+            // Load any saved predictions, otherwise load sample data.
+            // doing this after I pull from FB so I can easily add it when I have that done
+            
+           
+            
         }
         return true
     }
@@ -56,6 +82,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        //should save data here
+        if let dataStack = self.dataStack, let preds = dataStack.predictions {
+            print(preds[0].note)
+            dataStack.savePredictions(predictions: preds)
+        }
+        
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -68,6 +100,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        print("will terminate")
+        if let dataStack = self.dataStack, let preds = dataStack.predictions {
+            dataStack.savePredictions(predictions: preds)
+        }
     }
     
     //MARK: Private Methods

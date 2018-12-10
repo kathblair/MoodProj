@@ -145,7 +145,7 @@ class PredictionViewController: UIViewController, DataProtocolClient, UITextView
             return
         }
         let pred = prediction
-        print(pred?.note)
+        //print(pred?.note)
         // also there's only the original prediction that you would send back ...
         
         //pred.notes = notes

@@ -30,9 +30,9 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
         
         if let dataStack = dataStack, let ns = dataStack.notes {
             notes = ns
-            print("have dataStack")
+            print(ns)
             // but these are just the sample predictions, not the one we theoretically added on the first screen .. oh maybe we didn't.
-            print(notes[0].noteTimeReferenced)
+            //print(notes[0].noteTimeReferenced)
             
         }else{
             

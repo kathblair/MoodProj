@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import os.log
 
 
 class DataStack {
@@ -17,6 +18,10 @@ class DataStack {
     var predictions: [Prediction]?
     var notes: [Note]?
     var baseline:[String:Float] = ["bpm":0, "gsr":0, "temp":0]
+    
+    //for saving the predictions with notes
+    static let PredictionsDocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let PredictionsArchiveURL = PredictionsDocumentsDirectory.appendingPathComponent("predictions")
     
     //oh and then I could build the others then too and put them in their relevant view controllers
     
@@ -45,6 +50,23 @@ class DataStack {
         }
         self.predictions = predictions // where I'm saving the predictions for the whole schlomozzle
         self.notes = notes
+    }
+    
+    //Mark: Saving and loading
+    //Save predictions to file, should update with Firebase --> called when I change the prediction notes, make new predictions, and also if the app resigns or is terminated
+    public func savePredictions(predictions:[Prediction]) {
+         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(predictions, toFile: DataStack.PredictionsArchiveURL.path)
+         if isSuccessfulSave {
+         os_log("Predictions successfully saved.", log: OSLog.default, type: .debug)
+         } else {
+         os_log("Failed to save predictions...", log: OSLog.default, type: .error)
+         }
+    }
+    
+    //Load predictions --> called from the appdelegate. Will also need to update this with FB data stuff
+    public func loadPredictions() -> [Prediction]? {
+        print("trying to load predictions")
+        return NSKeyedUnarchiver.unarchiveObject(withFile: DataStack.PredictionsArchiveURL.path) as? [Prediction]
     }
     
 }

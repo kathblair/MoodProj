@@ -158,10 +158,9 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
     }
     
     //MARK: Actions
-    
+    //this RECIEVES data from the previousl one
     @IBAction func unwindToPredictionList(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? PredictionViewController, let prediction = sourceViewController.prediction {
-            
+        if let sourceViewController = sender.source as? PredictionViewController, let prediction = sourceViewController.prediction {            
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 // Update an existing prediction
                 predictions[selectedIndexPath.row] = prediction
@@ -174,7 +173,8 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
             
-            
+            //save the predictions ... can be done on any prediction, it will save all of them ... should I do it on the data stack instead?
+            dataStack?.savePredictions(predictions: predictions)
         }
     }
  

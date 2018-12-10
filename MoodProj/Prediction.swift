@@ -8,16 +8,27 @@
 
 import Foundation
 import UIKit
+import os.log
 
 
-class Prediction {
+class Prediction: NSObject, NSCoding{
     
-    enum moods:CaseIterable {
+    enum moods: String, CaseIterable {
         case happy
         case sad
         case angry
         case pain
         case unknown
+    }
+    
+    //MARK: Types
+    
+    struct PropertyKey {
+        static let timecreated = "timecreated"
+        static let mood = "mood"
+        static let confirmed = "confirmed"
+        static let note = "note"
+        static let dataPoint = "dataPoint"
     }
 
     
@@ -25,10 +36,14 @@ class Prediction {
     
     //var timeofprediction: TimeInterval
     var timecreated: TimeInterval?
-    var mood: moods
+    var mood: moods //probably need one for a corrected mood too
     var confirmed: Bool? // if it's not set, it wasn't evaluated.
     var note: String?
     var dataPoint: PhysData
+    
+    //MARK: Archiving Paths -- probably not NOT need this, will save to Firebase instead
+    
+
     
     //MARK: Initialization
     
@@ -104,4 +119,47 @@ class Prediction {
         return resultData.first
     }
     
+    //I will be swapping this out with a thing for sending to FB
+    //MARK: NSCoding
+    //so I am encoding an array of predictions so it should be here that I fix this
+    //and I think I need to put it on dataPoint, because presumably it like calls this function for that
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.timecreated, forKey: PropertyKey.timecreated)
+        aCoder.encode("\(self.mood)", forKey: PropertyKey.mood)
+        aCoder.encode(self.confirmed, forKey: PropertyKey.confirmed)
+        aCoder.encode(self.note, forKey: PropertyKey.note)
+        print("about to encode a data point")
+        aCoder.encode(self.dataPoint, forKey: PropertyKey.dataPoint) //mildly scared of this
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        // The mood is required. If we cannot decode a name string, the initializer should fail.
+        guard let moodb = aDecoder.decodeObject(forKey: PropertyKey.mood) as? String else{
+            os_log("Unable to decode the mood string for a Prediction object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        guard let mood = Prediction.moods(rawValue: moodb) else {
+                os_log("Unable to decode the mood for a Prediction object.", log: OSLog.default, type: .debug)
+                return nil
+        }
+        
+        //the data point is required.
+        let dp2 = aDecoder.decodeObject(forKey: PropertyKey.dataPoint)
+        let t2 = aDecoder.decodeObject(forKey: PropertyKey.timecreated)
+        print("String to decode: \(dp2)")
+        guard let dataPoint = aDecoder.decodeObject(forKey: PropertyKey.dataPoint) as? PhysData else {
+            os_log("Unable to decode the dataPoint for a Prediction object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        let timecreated = aDecoder.decodeObject(forKey: PropertyKey.timecreated) as? Double
+        let confirmed = aDecoder.decodeObject(forKey: PropertyKey.confirmed) as? Bool
+        let note = aDecoder.decodeObject(forKey: PropertyKey.note) as? String
+       
+        
+        // Must call designated initializer.
+        self.init(timecreated: timecreated, mood: mood, confirmed:confirmed, note:note, dataPoint: dataPoint)
+        
+    }
 }
