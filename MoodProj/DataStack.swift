@@ -16,7 +16,6 @@ class DataStack {
     
     var data: [PhysData]?
     var predictions: [Prediction]?
-    var notes: [Note]?
     var baseline:[String:Float] = ["bpm":0, "gsr":0, "temp":0]
     
     //for saving the predictions with notes
@@ -27,7 +26,7 @@ class DataStack {
     
     //MARK: Initialization
     
-    init?(data: [PhysData]?, predictions: [Prediction]?, notes:[Note]?) {
+    init?(data: [PhysData]?, predictions: [Prediction]?) {
         self.data = data
         //maybe I could get the baseline values here? would calulate once each time it was run
         if let data = data {
@@ -49,12 +48,12 @@ class DataStack {
             self.baseline = ["bpm":bpma, "gsr":gsra, "temp":tempa]
         }
         self.predictions = predictions // where I'm saving the predictions for the whole schlomozzle
-        self.notes = notes
     }
     
     //Mark: Saving and loading
     //Save predictions to file, should update with Firebase --> called when I change the prediction notes, make new predictions, and also if the app resigns or is terminated
     public func savePredictions(predictions:[Prediction]) {
+        
          let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(predictions, toFile: DataStack.PredictionsArchiveURL.path)
          if isSuccessfulSave {
          os_log("Predictions successfully saved.", log: OSLog.default, type: .debug)

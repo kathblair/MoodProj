@@ -68,6 +68,18 @@ class IntroViewController: UIViewController, DataProtocolClient {
         //super.viewDidAppear()
         updateLayer() // would this get the animation to restart?
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("navigating away from Overview")
+        //decide if I want to save this prediction, and if so, save them.
+        if let pred = thisPrediction, let dataStack = dataStack, let _ = dataStack.predictions {
+            print("have a thisPrediction")
+            print(pred.note) //it's not getting sent down
+        }
+        //print(preds[0].timecreated)
+        //print(preds[preds.count-1].timecreated)
+        //oh yeah the predictions aren't sorted because I haven't called them from the database anyway, so I should fix this when I have that done correctly. Maybe I will persist data and then do those things. And I can make the other ones in the past.
+    }
 
     func setUpLayer() { // draws the components
         //print("in setup layer")
@@ -245,11 +257,12 @@ class IntroViewController: UIViewController, DataProtocolClient {
         templabel.textAlignment = .center
         templabel.text = "Temp:"
         self.view.addSubview(templabel)
-
     }
 
     //updates the layer data.
     func updateLayer(){
+        //Making the prediction
+        //Maybe move this above and check it in updateprediction and see if we need to do anything with it
         if let dataStack = dataStack, let data = dataStack.data, let preds = dataStack.predictions {
             
             predictedMood = data[0].returnMoodPrediction(baseline: dataStack.baseline)
@@ -257,13 +270,9 @@ class IntroViewController: UIViewController, DataProtocolClient {
             //also I should see when the last prediction is and save it if it was like X mins ago ...
             if let predictedMood = predictedMood {
                 print(predictedMood)
-                thisPrediction = Prediction(timecreated: NSDate().timeIntervalSince1970, mood: predictedMood, confirmed: false, note: "", dataPoint: data[0])
+                thisPrediction = Prediction(timecreated: NSDate().timeIntervalSince1970, mood: predictedMood, confirmed: false, note: "", time: data[0].time, millis: data[0].millis, gsr: data[0].gsr, gsreval:data[0].gsreval, bpm: data[0].bpm, temp: data[0].temp)
                 //false because it's not been confirmed in the popup yet
                 moodLabel.text = "\(predictedMood)"
-                
-                //print(preds[0].timecreated)
-                //print(preds[preds.count-1].timecreated)
-                //oh yeah the predictions aren't sorted because I haven't called them from the database anyway, so I should fix this when I have that done correctly. Maybe I will persist data and then do those things. And I can make the other ones in the past.
             }
             
             bpmvalue.text = "\(data[0].bpm)"
@@ -342,6 +351,68 @@ class IntroViewController: UIViewController, DataProtocolClient {
             
         }
     }
+    
+    //
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    //this SENDS data to the next one
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        switch(segue.identifier ?? "") {
+        case "AddItem":
+            //this is not really actually a thing. should delete
+            os_log("Adding a new prediction.", log: OSLog.default, type: .debug)
+            
+        case "ShowCorrectionDetail":
+            guard let ShowCorrectionDetail = segue.destination as? CorrectionViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            //probably don't actually need this
+            let selectedPrediction =
+                thisPrediction
+            ShowCorrectionDetail.prediction = selectedPrediction
+            
+        case "ShowConfirmationDetail":
+            guard let ShowConfirmationDetail = segue.destination as? ConfirmationViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            //probably don't actually need this
+            let selectedPrediction = thisPrediction
+            ShowConfirmationDetail.prediction = selectedPrediction
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+            
+        }
+    }
+    
+    //MARK: Actions
+    //this RECIEVES data from the previous one
+    @IBAction func unwindToOverview(sender: UIStoryboardSegue) {
+        print("unwinding")
+        if let sourceViewController = sender.source as? ConfirmationViewController, let prediction = sourceViewController.prediction {
+            thisPrediction = prediction
+            if let thisPrediction = thisPrediction{
+                if var ps = dataStack?.predictions{
+                    ps.append(thisPrediction)
+                    dataStack?.savePredictions(predictions: ps)
+                }
+            }
+        } else if let sourceViewController = sender.source as? CorrectionViewController, let prediction = sourceViewController.prediction {
+            thisPrediction = prediction
+            if let thisPrediction = thisPrediction{
+                if var ps = dataStack?.predictions{
+                    ps.append(thisPrediction)
+                    dataStack?.savePredictions(predictions: ps)
+                }
+            }
+        }
+    }
+    //MARK: Private Methods
     
 }
 

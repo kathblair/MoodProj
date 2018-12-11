@@ -591,19 +591,19 @@ class MultiLineChart: UIView {
                         //if we haven't saved a prediction in a while, save this one
                         let date = Date()
                         //also are we saving data only once per second? I think yes, I think it's like a 5 second interval
-                        let prediction = Prediction(timecreated: date.timeIntervalSince1970, mood: predmood, confirmed: false, note: "", dataPoint: data[smallesti])
+                        let prediction = Prediction(timecreated: date.timeIntervalSince1970, mood: predmood, confirmed: false, note: "", time: data[smallesti].time, millis: data[smallesti].millis, gsr: data[smallesti].gsr, gsreval: data[smallesti].gsreval, bpm: data[smallesti].bpm, temp: data[smallesti].temp)
                         
                         if let preds = dataStack.predictions, let prediction = prediction {
                             if preds.count > 0 {
                                 //filter them
                                 let arr = preds.filter {
-                                    $0.dataPoint.time == prediction.dataPoint.time
+                                    $0.time == prediction.time
                                     }
                                 if arr.count>0 {
                                     // mathcing time so we don't need it.
                                 }else{
                                     //check last time, just use the most recent-ish one I guess, I should probably find a better way to check that
-                                    let timediff = prediction.dataPoint.time - preds[0].dataPoint.time
+                                    let timediff = prediction.time - preds[0].time
                                     let predinterval = 15*60 // 60 mins in seconds
                                     if Int(timediff) > predinterval {
                                         //time to save it to the stack

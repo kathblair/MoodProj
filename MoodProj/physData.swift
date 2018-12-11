@@ -14,11 +14,11 @@ import os.log
 class PhysData: NSObject, NSCoding {
     
     enum gsrstate: String, CaseIterable {
-        case sf = "Few Small Peaks" // small and few
-        case sm  = "Many Small Peaks" // small and many
-        case bs = "Some Big Peaks" // big and some
-        case bo = "One Big Peak" // big and one
-        case none = "None" // so I can set it when I have noting
+        case sf// small and few
+        case sm  // small and many
+        case bs // big and some
+        case bo // big and one
+        case none // so I can set it when I have nothing
     }
     
     
@@ -50,6 +50,8 @@ class PhysData: NSObject, NSCoding {
         self.gsreval = gsreval
         self.bpm = bpm
         self.temp = temp
+        
+        super.init()
     }
     
     func returnMoodPrediction(baseline:[String:Float])->Prediction.moods {
@@ -90,8 +92,13 @@ class PhysData: NSObject, NSCoding {
     //I will be swapping this out with a thing for sending to FB
     //MARK: NSCoding
     func encode(with aCoder: NSCoder) {
+        let encMillis = NSKeyedArchiver.archivedData(withRootObject: self.millis)
+        aCoder.encode(encMillis, forKey: PropertyKey.millis)
+        print ("encoding DataPhys")
+        /*
         aCoder.encode(self.millis, forKey: PropertyKey.millis)
             print(self.millis)
+         */
         aCoder.encode(self.time, forKey: PropertyKey.time)
         aCoder.encode(self.gsr, forKey: PropertyKey.gsr)
         /*
@@ -102,6 +109,7 @@ class PhysData: NSObject, NSCoding {
         }*/
         aCoder.encode(self.bpm, forKey: PropertyKey.bpm)
         aCoder.encode(self.temp, forKey: PropertyKey.temp)
+        
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -116,6 +124,16 @@ class PhysData: NSObject, NSCoding {
         print("trying to load dataPoint")
         //let m = aDecoder.decodeObject(forKey: PropertyKey.millis) as Double? // did you not get saved???
         
+        
+        let tmpName = aDecoder.decodeObject(forKey: PropertyKey.millis)
+        print(tmpName)
+        
+        if let name = NSKeyedUnarchiver.unarchiveObject(with: tmpName as! Data) as? String {
+            print("What's this: \(name)")
+            
+        }
+
+       
         let mm = aDecoder.decodeObject(forKey: PropertyKey.millis) as? Double
         print("Millis: \(mm)")
 

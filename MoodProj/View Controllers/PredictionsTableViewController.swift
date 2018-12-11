@@ -21,17 +21,13 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("predictions view did load")
         
         if let dataStack = dataStack, let preds = dataStack.predictions {
             predictions = preds
             print("have dataStack")
             print(predictions.count)
-            // but these are just the sample predictions, not the one we theoretically added on the first screen .. oh maybe we didn't.
-            //print(predictions[0].note)
-           
         }else{
-            //loadSamplePredictions()
+            print("no data stack")
         }
         
 
@@ -41,12 +37,9 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        //loadSamplePredictions()
-        
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1 // use this for more columns?
     }
@@ -72,7 +65,7 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
         formatter.dateFormat = "M/d"
         let timeformatter = DateFormatter()
         timeformatter.dateFormat = "h:mm a"
-        let date = Date(timeIntervalSince1970: prediction.dataPoint.time)
+        let date = Date(timeIntervalSince1970: prediction.time)
         //the location of all of this is messed up
         cell.dateLabel.text = formatter.string(from: date)
         cell.timeLabel.text = timeformatter.string(from: date)
@@ -158,7 +151,7 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
     }
     
     //MARK: Actions
-    //this RECIEVES data from the previousl one
+    //this RECIEVES data from the previous one
     @IBAction func unwindToPredictionList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? PredictionViewController, let prediction = sourceViewController.prediction {            
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
@@ -180,23 +173,5 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
  
     
     //MARK: Private Methods
-    /*
-     //doing this in appdelegate
-    private func loadSamplePredictions() {
-        // make one to load from the DB ... and one to save from a set of data to a prediction.
-        guard let prediction1 = Prediction(timeofprediction: NSDate().timeIntervalSince1970, timecreated: NSDate().timeIntervalSince1970, mood: Prediction.moods.happy, confirmed: true) else {
-            fatalError("Unable to instantiate prediction1")
-        }
-        guard let prediction2 = Prediction(timeofprediction: NSDate().timeIntervalSince1970, timecreated: NSDate().timeIntervalSince1970, mood: Prediction.moods.sad, confirmed: false) else {
-            fatalError("Unable to instantiate prediction2")
-        }
-        
-        guard let prediction3 = Prediction(timeofprediction: NSDate().timeIntervalSince1970, timecreated: NSDate().timeIntervalSince1970, mood: Prediction.moods.angry, confirmed: nil) else {
-            fatalError("Unable to instantiate prediction3")
-        }
-        
-        predictions += [prediction1, prediction2, prediction3]
-    }
-     */
 
 }

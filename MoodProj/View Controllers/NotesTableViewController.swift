@@ -11,7 +11,8 @@ import os.log
 
 class NotesTableViewController: UITableViewController, DataProtocolClient {
     //MARK: Properties
-    var notes = [Note]()
+    var notes = [Prediction]()
+    var predictions: [Prediction]?
     
     var dataStack: DataStack?
     func setData(data: DataStack) {
@@ -28,17 +29,19 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        if let dataStack = dataStack, let ns = dataStack.notes {
-            notes = ns
-            print(ns)
+        if let dataStack = dataStack, let preds = dataStack.predictions {
             // but these are just the sample predictions, not the one we theoretically added on the first screen .. oh maybe we didn't.
             //print(notes[0].noteTimeReferenced)
-            
-        }else{
-            
+            //now I gotta figure out how to get all the ones with notes
+            //maybe I will match it up when I return to this screen
+            predictions = preds
+            let withNotes = preds.filter {
+                $0.note != nil || $0.note != ""
+            }
+            notes = withNotes
+            //going to have to update predictions at the end
         }
         print(notes)
-        //loadSampleNotes()
     }
 
     // MARK: - Table view data source
@@ -68,21 +71,18 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
         timeformatter.dateFormat = "h:mm a"
         let formatterrange = DateFormatter()
         formatterrange.dateFormat = "M/d h:mm a"
-        let createddate = Date(timeIntervalSince1970: note.noteTimeCreated)
-        let rangestart = Date(timeIntervalSince1970: note.noteContextStart ?? 0) // this is going to be stupid if I don't have it and I should take it out
-        let rangeend = Date(timeIntervalSince1970: note.noteContextEnd ?? 0) // this is going to be stupid if I don't have it and I should take it out
-        let rangetext = formatterrange.string(from: rangestart) + " to " + formatterrange.string(from: rangeend)
-        //the location of all of this is messed up
-        cell.noteDateLabel.text = formatter.string(from: createddate)
-        cell.noteTimeLabel.text = timeformatter.string(from: createddate)
-        if let nC = note.noteContext {
-            cell.noteContextTitleLabel.text = "\(nC)"
-        } else {
-            print("Unable to retrieve context title.")
+        if let tc = note.timecreated {
+            let createddate = Date(timeIntervalSince1970: tc)
+            cell.noteDateLabel.text = formatter.string(from: createddate)
+            cell.noteTimeLabel.text = timeformatter.string(from: createddate)
         }
-        //cell.noteContextTitleLabel.text = "\(String(describing: note.noteContext))"
+        
+        let refdate = Date(timeIntervalSince1970: note.time)
+        let rangetext = formatterrange.string(from: refdate)
+        //the location of all of this is messed up
+        
         cell.noteContextRangeLabel.text  = rangetext
-        cell.noteTextContainer.text = note.text
+        cell.noteTextContainer.text = note.note
         
         // need to add start and end of context if I go that route of having that
 
@@ -130,11 +130,12 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         super.prepare(for: segue, sender: sender)
         switch(segue.identifier ?? "") {
         case "AddItem":
             //this is not really actually a thing. should delete
-            os_log("Adding a new prediction.", log: OSLog.default, type: .debug)
+            os_log("Adding a new note.", log: OSLog.default, type: .debug)
             
         case "ShowNotesDetail":
             guard let ShowNoteDetail = segue.destination as? NoteViewController else {
@@ -158,6 +159,41 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
         }
     }
     
+    //MARK: Actions
+    //this RECIEVES data from the previousl one
+    @IBAction func unwindToNoteList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? NoteViewController, let note = sourceViewController.note {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Update an existing prediction
+                notes[selectedIndexPath.row] = note
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
+            else {
+                // Add a new prediction. I will actually never be doing this, but whatever
+                let newIndexPath = IndexPath(row: notes.count, section: 0)
+                notes.append(note)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+            
+            //save the predictions ... can be done on any prediction, it will save all of them ... should I do it on the data stack instead?
+            //this would be where I should merge my notes and so on
+            for note in notes {
+                print(note.note)
+                //find the appropriate predictions .. could match by more than one thing
+                if let predictions = predictions {
+                    for var p in predictions {
+                        if(p.time == note.time && p.timecreated == note.timecreated){
+                            p=note
+                        }
+                    }
+                }
+            }
+            if let predictions = predictions{
+                dataStack?.savePredictions(predictions: predictions)
+            }
+        }
+    }
+    
     //MARK: Private Methods
     //moving this to appdelegate.
     private func loadSampleNotes() {
@@ -174,8 +210,6 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
         guard let note3 = Note(noteTimeCreated: NSDate().timeIntervalSince1970, noteTimeReferenced: NSDate().timeIntervalSince1970, noteContext: Note.contexts.timeline, noteContextStart: NSDate().timeIntervalSince1970, noteContextEnd:NSDate().timeIntervalSince1970, text: "this is a third note about a thing that is happening with my mood.") else {
             fatalError("Unable to instantiate note3")
         }
-        
-        notes += [note1, note2, note3]
     }
 
 }

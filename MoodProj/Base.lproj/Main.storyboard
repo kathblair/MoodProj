@@ -58,7 +58,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" image="QuickActions_Confirmation_2x"/>
                                                 <connections>
-                                                    <segue destination="hm1-fX-uGj" kind="modal" id="UfJ-bT-BJi"/>
+                                                    <segue destination="hm1-fX-uGj" kind="modal" identifier="ShowConfirmationDetail" id="UfJ-bT-BJi"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDc-cq-ln4">
@@ -66,7 +66,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" image="Navigation_Stop_2x"/>
                                                 <connections>
-                                                    <segue destination="fXZ-l7-AOg" kind="modal" id="N8s-3e-LPl"/>
+                                                    <segue destination="fXZ-l7-AOg" kind="modal" identifier="ShowCorrectionDetail" id="N8s-3e-LPl"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Happy?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AUC-sJ-vj1">
@@ -142,12 +142,12 @@
                                                         <rect key="frame" x="225" y="0.0" width="84" height="30"/>
                                                         <state key="normal" title="Confirm"/>
                                                         <connections>
-                                                            <action selector="dismissConfirmation:" destination="hm1-fX-uGj" eventType="touchUpInside" id="2mE-bB-RdL"/>
+                                                            <segue destination="Vt9-Qh-d8v" kind="unwind" unwindAction="unwindToOverviewWithSender:" id="dJA-kn-UQz"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks for confirming the correct prediction: Happy. Would you like to add notes?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RU-mn-B1n">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks for confirming the correct prediction: [[mood]]. Would you like to add notes?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RU-mn-B1n">
                                                 <rect key="frame" x="0.0" y="58" width="309" height="61"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -183,6 +183,11 @@
                             <constraint firstItem="0Rm-Hl-4ET" firstAttribute="top" secondItem="hdf-lI-YWz" secondAttribute="bottom" constant="149" id="z2e-1x-9U4"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="confirmationInstructionText" destination="2RU-mn-B1n" id="ui5-nC-2VJ"/>
+                        <outlet property="confirmationNotesView" destination="0EU-we-UWk" id="Pf6-eu-hvi"/>
+                        <outlet property="confirmationSaveButton" destination="oVb-N8-sMB" id="zk9-zu-4iz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o7E-Nx-som" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Vt9-Qh-d8v" userLabel="Exit" sceneMemberID="exit"/>
@@ -227,7 +232,7 @@
                                                         <rect key="frame" x="237" y="0.0" width="52" height="30"/>
                                                         <state key="normal" title="Correct"/>
                                                         <connections>
-                                                            <action selector="dismissCorrection:" destination="fXZ-l7-AOg" eventType="touchUpInside" id="ba8-9y-yVP"/>
+                                                            <segue destination="uqg-I8-KNT" kind="unwind" unwindAction="unwindToOverviewWithSender:" id="vdx-1l-qL9"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -246,6 +251,9 @@
                                                     <segment title="In Pain"/>
                                                     <segment title="Other"/>
                                                 </segments>
+                                                <connections>
+                                                    <action selector="setNewMood:" destination="fXZ-l7-AOg" eventType="valueChanged" id="yfu-q1-xYY"/>
+                                                </connections>
                                             </segmentedControl>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7M-h3-fCJ">
                                                 <rect key="frame" x="0.0" y="195" width="289" height="20.5"/>
@@ -283,8 +291,15 @@
                             <constraint firstItem="OMb-8s-sh8" firstAttribute="top" secondItem="Uqv-uj-E5B" secondAttribute="bottom" constant="81" id="erI-Uf-0Jf"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="correctionInstructionText" destination="AaC-dm-bsN" id="8GR-Ck-ae6"/>
+                        <outlet property="correctionMoodPicker" destination="ZZw-cr-LAm" id="dHL-BJ-Op6"/>
+                        <outlet property="correctionNotesView" destination="5yS-Tg-4B4" id="oaH-MV-sOJ"/>
+                        <outlet property="correctionSaveButton" destination="gzQ-7o-xXS" id="v9V-06-Ugt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zqg-os-gY6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="uqg-I8-KNT" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="349.60000000000002" y="825.33733133433293"/>
         </scene>
@@ -967,6 +982,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD1-8I-wc5">
                                                         <rect key="frame" x="197" y="0.0" width="70" height="31.5"/>
                                                         <state key="normal" title="Save Note"/>
+                                                        <connections>
+                                                            <segue destination="KB7-53-4Br" kind="unwind" unwindAction="unwindToNoteListWithSender:" id="1Gt-Xb-8Tl"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -1034,10 +1052,12 @@
                         <outlet property="noteContextRange" destination="4WW-lJ-keI" id="vew-zn-H2p"/>
                         <outlet property="noteContextTitle" destination="zjR-ny-SvS" id="0hl-rn-sBY"/>
                         <outlet property="noteDateTimeLabel" destination="2at-QM-6eh" id="6FD-tR-7iG"/>
+                        <outlet property="noteSaveButton" destination="JD1-8I-wc5" id="VQj-ll-NXH"/>
                         <outlet property="noteText" destination="ymj-Vf-u9X" id="9gZ-dD-019"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="beB-I9-lEQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="KB7-53-4Br" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1800.8" y="928.78560719640188"/>
         </scene>

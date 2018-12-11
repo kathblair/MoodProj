@@ -134,12 +134,12 @@
 				D7E538761F483B5D00D14995 /* TimelineViewController.swift */,
 				0C31EBED21A49BC600FC1131 /* PredictionsTableViewController.swift */,
 				0C31EBF721A5E32F00FC1131 /* PredictionsTableViewCell.swift */,
-				0C63E22321AE31FA0089F687 /* ConfirmationViewController.swift */,
 				0C63E21921ACB7830089F687 /* PredictionViewController.swift */,
 				0C31EBF521A5E31000FC1131 /* NotesTableViewController.swift */,
 				0C31EBF921A5E33F00FC1131 /* NotesTableViewCell.swift */,
-				0CDB00B221AC931200A5B89F /* ChartViewController.swift */,
 				0C63E21B21ACB7A50089F687 /* NoteViewController.swift */,
+				0CDB00B221AC931200A5B89F /* ChartViewController.swift */,
+				0C63E22321AE31FA0089F687 /* ConfirmationViewController.swift */,
 				0C63E22521AE320A0089F687 /* CorrectionViewController.swift */,
 			);
 			path = "View Controllers";
