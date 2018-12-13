@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-26.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import UIKit
@@ -35,19 +34,13 @@ class PredictionViewController: UIViewController, DataProtocolClient, UITextView
      or constructed as part of adding a new prediction.
      */
     var prediction: Prediction?
-    // probably also need a note one. And to pass that in the same way from the prediction view controller, and just query the
-    //or I could just add a note field to the prediction, and make them both a .... uuuggghhh this is probably why I procrastinated on this. I will try it this way. I suppose it would probably be pretty easy to ... use the notes one and filter predictions by having the note field. Instead of storing them separately like a chump. Well let's save them both, and then tackle that.
-    //Could I implement a filter bar on the
-    var note: Note?
     var orginnote = "" // will probably be a string really
-    //this is where I will pass it the data, which I don't need to pass back.
-    //or I could try passing the data info ... could try both
-    var dataPoint: PhysData?
-    var bpmValue: Int?
-    var gsrValue: CGFloat?
+    //var dataPoint: PhysData?
+    //var bpmValue: Int?
+    //var gsrValue: CGFloat?
     //Need to figure out why the gsrstate isn't OK here.
     //var gsreval: gsrstate? // maybe make this an iterable
-    var tempValue: Double?
+    //var tempValue: Double?
     
     
     override func viewDidLoad() {
@@ -64,9 +57,9 @@ class PredictionViewController: UIViewController, DataProtocolClient, UITextView
             // need to send this to the prediction when I make it, or get it from the associated data
             //which I should be able to do now pretty simply.
             //oh I need to pass it the data point too
-            bpmValueLabel.text = "\(prediction.dataPoint.bpm)"
-            gsrValueLabel.text = "\(prediction.dataPoint.gsr)"
-            tempValueLabel.text =  "\(prediction.dataPoint.temp) °C"
+            bpmValueLabel.text = "\(prediction.bpm)"
+            gsrValueLabel.text = "\(prediction.gsr)"
+            tempValueLabel.text =  "\(prediction.temp.rounded(toPlaces: 1)) °C"
             
             // need to decide how I'm implementing the notes and then get the associated note field or whatever
             if let note = prediction.note {
@@ -88,7 +81,7 @@ class PredictionViewController: UIViewController, DataProtocolClient, UITextView
     func textViewShouldReturn(_ textView: UITextView) -> Bool {
         // Hide the keyboard.
         textView.resignFirstResponder()
-        print("should return text field")
+        //print("should return text field")
         return true
     }
     
@@ -115,7 +108,6 @@ class PredictionViewController: UIViewController, DataProtocolClient, UITextView
         if let prediction = prediction {
             prediction.note = textView.text
         }
-        //print("text view changed text field")
     }
     
     private func textViewShouldEndEditing(_ textView: UITextView) {

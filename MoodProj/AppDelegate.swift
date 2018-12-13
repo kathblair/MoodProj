@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  BarChart
-//
-//  Created by Nguyen Vu Nhat Minh on 19/8/17.
-//  Copyright © 2017 Nguyen Vu Nhat Minh. All rights reserved.
-//
 
 import UIKit
 import Firebase
@@ -17,7 +10,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     var predictions: [Prediction] = [] // should build my sample ones here
-    var notes: [Note] = [] // should build my sample ones here
     var data: [PhysData] = []
     var dataStack: DataStack?
 
@@ -27,9 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
-        
-        //need to build this
-        //this worked. I think I'll just have problems the first time I want to make some predictions and save them.
+
         
         getFireBaseData { (values) -> Void in
             self.data = convertDictToPhysData(values: values)
@@ -44,15 +34,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.loadSamplePredictions()
             }
              */
-            //initialize with empty predictions ... maybe I should not have this function on the datastack
-            self.dataStack = DataStack(data: self.data, predictions: self.predictions, notes: self.notes)
+            //initialize with empty predictions
+            self.dataStack = DataStack(data: self.data, predictions: self.predictions)
             if let dataStack = self.dataStack {
-                //could I reset them here?
-                print("can we do loadpredictions")
                 let savedPredictions = dataStack.loadPredictions() // can I do this? Right now it doesn't need to be on the actual datastack
-                print(savedPredictions)
-                self.loadSamplePredictions()
-                dataStack.predictions = self.predictions
+                if let savedPredictions = savedPredictions {
+                    print("have saved predictions")
+                    self.predictions = savedPredictions
+                    dataStack.predictions = self.predictions
+                }else{
+                    print("no saved predictions")
+                    self.predictions = self.loadSamplePredictions()
+                    dataStack.predictions = self.predictions
+                }
+                
+                //print(dataStack.predictions)
             }
             if let tab = self.window?.rootViewController as? UITabBarController {
                     for child in tab.viewControllers ?? [] {
@@ -84,7 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         //should save data here
         if let dataStack = self.dataStack, let preds = dataStack.predictions {
-            print(preds[0].note)
             dataStack.savePredictions(predictions: preds)
         }
         
@@ -108,24 +103,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK: Private Methods
     
-    private func loadSamplePredictions() {
+    private func loadSamplePredictions()-> [Prediction] {
         // make one to load from the DB ... and one to save from a set of data to a prediction.
-        let data1 = PhysData(millis: 1000, time: Date.init(timeIntervalSinceNow: -86400).timeIntervalSince1970, gsr: 1000, gsreval: PhysData.gsrstate.bo, bpm: 60, temp: 35)
-        let data2 = PhysData(millis: 1100, time: Date.init(timeIntervalSinceNow: -76400).timeIntervalSince1970, gsr: 1100, gsreval: PhysData.gsrstate.bs, bpm: 65, temp: 30)
-        let data3 = PhysData(millis: 1200, time: Date.init(timeIntervalSinceNow: -66400).timeIntervalSince1970, gsr: 1200, gsreval: PhysData.gsrstate.sf, bpm: 70, temp: 25)
-        if let data1 = data1, let data2=data2, let data3=data3 {
-            guard let prediction1 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -100).timeIntervalSince1970, mood: Prediction.moods.happy, confirmed: true, note: "This is a note for prediction 1", dataPoint: data1) else {
+        print("Datas:\(self.data.count)")
+        //I think they are all different, so that's good
+        
+        let data1 = self.data[0]
+        let data2 = self.data[100]
+        let data3 = self.data[200]
+        //could append those to data and get them
+        guard let prediction1 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -100).timeIntervalSince1970, mood: Prediction.moods.happy, confirmed: true, note: "This is a note for prediction 1", time: data1.time, millis: data1.millis, gsr: data1.gsr, gsreval: data1.gsreval, bpm:data1.bpm, temp: data1.temp) else {
                 fatalError("Unable to instantiate prediction1")
             }
-            guard let prediction2 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -200).timeIntervalSince1970, mood: Prediction.moods.sad, confirmed: false, note: "This is a note for prediction 2", dataPoint: data2) else {
+        guard let prediction2 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -200).timeIntervalSince1970, mood: Prediction.moods.sad, confirmed: false, note: "This is a note for prediction 2", time: data2.time, millis: data2.millis, gsr: data2.gsr, gsreval: data2.gsreval, bpm:data2.bpm, temp: data2.temp) else {
                 fatalError("Unable to instantiate prediction2")
             }
             
-            guard let prediction3 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -100).timeIntervalSince1970,  mood: Prediction.moods.angry, confirmed: nil, note: "this is a note for prediction 3", dataPoint: data3) else {
+        guard let prediction3 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -100).timeIntervalSince1970,  mood: Prediction.moods.angry, confirmed: nil, note: "this is a note for prediction 3", time: data3.time, millis: data3.millis, gsr: data3.gsr, gsreval: data3.gsreval, bpm:data3.bpm, temp: data3.temp) else {
                 fatalError("Unable to instantiate prediction3")
             }
-            self.predictions += [prediction1, prediction2, prediction3]
-        }
+        let predictions = [prediction1, prediction2, prediction3]
+        print("ok added sample predictions")
+        return predictions
     }
 }
 

@@ -8,12 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0C31EBE821A492B200FC1131 /* drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBE721A492B200FC1131 /* drawing.swift */; };
-		0C31EBEA21A4961000FC1131 /* IntroVizualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBE921A4961000FC1131 /* IntroVizualization.swift */; };
-		0C31EBEC21A496BE00FC1131 /* timelinevizualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBEB21A496BE00FC1131 /* timelinevizualization.swift */; };
 		0C31EBEE21A49BC600FC1131 /* PredictionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBED21A49BC600FC1131 /* PredictionsTableViewController.swift */; };
 		0C31EBF021A49C9100FC1131 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBEF21A49C9100FC1131 /* IntroViewController.swift */; };
 		0C31EBF221A4B7AD00FC1131 /* Datum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBF121A4B7AD00FC1131 /* Datum.swift */; };
-		0C31EBF421A5E09200FC1131 /* interfacebuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBF321A5E09200FC1131 /* interfacebuilding.swift */; };
 		0C31EBF621A5E31000FC1131 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBF521A5E31000FC1131 /* NotesTableViewController.swift */; };
 		0C31EBF821A5E32F00FC1131 /* PredictionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBF721A5E32F00FC1131 /* PredictionsTableViewCell.swift */; };
 		0C31EBFA21A5E33F00FC1131 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31EBF921A5E33F00FC1131 /* NotesTableViewCell.swift */; };
@@ -26,20 +23,16 @@
 		0C63E21A21ACB7830089F687 /* PredictionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E21921ACB7830089F687 /* PredictionViewController.swift */; };
 		0C63E21C21ACB7A50089F687 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E21B21ACB7A50089F687 /* NoteViewController.swift */; };
 		0C63E21E21ADD2B80089F687 /* SharedInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E21D21ADD2B80089F687 /* SharedInformation.swift */; };
-		0C63E22021ADE2E90089F687 /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E21F21ADE2E90089F687 /* IntroView.swift */; };
 		0C63E22221AE24780089F687 /* Thermometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E22121AE24780089F687 /* Thermometer.swift */; };
 		0C63E22421AE31FA0089F687 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E22321AE31FA0089F687 /* ConfirmationViewController.swift */; };
 		0C63E22621AE320A0089F687 /* CorrectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E22521AE320A0089F687 /* CorrectionViewController.swift */; };
-		0C63E22821AE571B0089F687 /* ScrollBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E22721AE571B0089F687 /* ScrollBars.swift */; };
 		0C63E22A21AF69050089F687 /* ToolTipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0C63E22921AF69050089F687 /* ToolTipView.xib */; };
 		0C63E22C21AF6E2A0089F687 /* ToolTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63E22B21AF6E2A0089F687 /* ToolTipView.swift */; };
 		0CB08577219B7A29007F2E04 /* scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB08576219B7A29007F2E04 /* scaling.swift */; };
 		0CB08579219B81BD007F2E04 /* sorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB08578219B81BD007F2E04 /* sorting.swift */; };
 		0CBBCECB219635FE00E121F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0CBBCECA219635FE00E121F8 /* GoogleService-Info.plist */; };
 		0CDB00AD21AC928300A5B89F /* DotCALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB00AA21AC928200A5B89F /* DotCALayer.swift */; };
-		0CDB00AE21AC928300A5B89F /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB00AB21AC928300A5B89F /* LineChart.swift */; };
 		0CDB00AF21AC928300A5B89F /* CurveAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB00AC21AC928300A5B89F /* CurveAlgorithm.swift */; };
-		0CDB00B321AC931200A5B89F /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB00B221AC931200A5B89F /* ChartViewController.swift */; };
 		0CDB00B521AC9B7A00A5B89F /* MultiLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB00B421AC9B7A00A5B89F /* MultiLineChart.swift */; };
 		3655BD6D6D0968DE5C14A413 /* Pods_MoodProj.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8363629B0F9CFD7CCC56F39 /* Pods_MoodProj.framework */; };
 		D7E538751F483B5D00D14995 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E538741F483B5D00D14995 /* AppDelegate.swift */; };
@@ -47,19 +40,13 @@
 		D7E5387A1F483B5D00D14995 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7E538781F483B5D00D14995 /* Main.storyboard */; };
 		D7E5387C1F483B5D00D14995 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7E5387B1F483B5D00D14995 /* Assets.xcassets */; };
 		D7E5387F1F483B5D00D14995 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7E5387D1F483B5D00D14995 /* LaunchScreen.storyboard */; };
-		D7E538871F483BBF00D14995 /* BeautifulBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E538861F483BBF00D14995 /* BeautifulBarChart.swift */; };
-		D7E538891F483BF100D14995 /* BarEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E538881F483BF100D14995 /* BarEntry.swift */; };
-		D7E5388B1F483C4500D14995 /* BasicBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5388A1F483C4400D14995 /* BasicBarChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C31EBE721A492B200FC1131 /* drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = drawing.swift; sourceTree = "<group>"; };
-		0C31EBE921A4961000FC1131 /* IntroVizualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroVizualization.swift; sourceTree = "<group>"; };
-		0C31EBEB21A496BE00FC1131 /* timelinevizualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timelinevizualization.swift; sourceTree = "<group>"; };
 		0C31EBED21A49BC600FC1131 /* PredictionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsTableViewController.swift; sourceTree = "<group>"; };
 		0C31EBEF21A49C9100FC1131 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		0C31EBF121A4B7AD00FC1131 /* Datum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum.swift; sourceTree = "<group>"; };
-		0C31EBF321A5E09200FC1131 /* interfacebuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = interfacebuilding.swift; sourceTree = "<group>"; };
 		0C31EBF521A5E31000FC1131 /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		0C31EBF721A5E32F00FC1131 /* PredictionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsTableViewCell.swift; sourceTree = "<group>"; };
 		0C31EBF921A5E33F00FC1131 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
@@ -72,20 +59,16 @@
 		0C63E21921ACB7830089F687 /* PredictionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionViewController.swift; sourceTree = "<group>"; };
 		0C63E21B21ACB7A50089F687 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		0C63E21D21ADD2B80089F687 /* SharedInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInformation.swift; sourceTree = "<group>"; };
-		0C63E21F21ADE2E90089F687 /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 		0C63E22121AE24780089F687 /* Thermometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thermometer.swift; sourceTree = "<group>"; };
 		0C63E22321AE31FA0089F687 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		0C63E22521AE320A0089F687 /* CorrectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionViewController.swift; sourceTree = "<group>"; };
-		0C63E22721AE571B0089F687 /* ScrollBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBars.swift; sourceTree = "<group>"; };
 		0C63E22921AF69050089F687 /* ToolTipView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToolTipView.xib; sourceTree = "<group>"; };
 		0C63E22B21AF6E2A0089F687 /* ToolTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipView.swift; sourceTree = "<group>"; };
 		0CB08576219B7A29007F2E04 /* scaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scaling.swift; sourceTree = "<group>"; };
 		0CB08578219B81BD007F2E04 /* sorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sorting.swift; sourceTree = "<group>"; };
 		0CBBCECA219635FE00E121F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0CDB00AA21AC928200A5B89F /* DotCALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotCALayer.swift; sourceTree = "<group>"; };
-		0CDB00AB21AC928300A5B89F /* LineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		0CDB00AC21AC928300A5B89F /* CurveAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveAlgorithm.swift; sourceTree = "<group>"; };
-		0CDB00B221AC931200A5B89F /* ChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		0CDB00B421AC9B7A00A5B89F /* MultiLineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiLineChart.swift; sourceTree = "<group>"; };
 		2665B8FDBA080030AF71CCEC /* Pods-MoodProj.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoodProj.release.xcconfig"; path = "Pods/Target Support Files/Pods-MoodProj/Pods-MoodProj.release.xcconfig"; sourceTree = "<group>"; };
 		D7E538711F483B5D00D14995 /* MoodProj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoodProj.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,9 +78,6 @@
 		D7E5387B1F483B5D00D14995 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D7E5387E1F483B5D00D14995 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D7E538801F483B5D00D14995 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D7E538861F483BBF00D14995 /* BeautifulBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeautifulBarChart.swift; sourceTree = "<group>"; };
-		D7E538881F483BF100D14995 /* BarEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarEntry.swift; sourceTree = "<group>"; };
-		D7E5388A1F483C4400D14995 /* BasicBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicBarChart.swift; sourceTree = "<group>"; };
 		D8363629B0F9CFD7CCC56F39 /* Pods_MoodProj.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoodProj.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD1A49BC56FED4CB374EA3C1 /* Pods-MoodProj.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoodProj.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MoodProj/Pods-MoodProj.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,19 +94,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0C3AB8C021B72F7500B09059 /* Not Active */ = {
-			isa = PBXGroup;
-			children = (
-				D7E538861F483BBF00D14995 /* BeautifulBarChart.swift */,
-				D7E5388A1F483C4400D14995 /* BasicBarChart.swift */,
-				0CDB00AB21AC928300A5B89F /* LineChart.swift */,
-				0C63E22721AE571B0089F687 /* ScrollBars.swift */,
-				D7E538881F483BF100D14995 /* BarEntry.swift */,
-				0C31EBF321A5E09200FC1131 /* interfacebuilding.swift */,
-			);
-			path = "Not Active";
-			sourceTree = "<group>";
-		};
 		0C63E21821ACB6ED0089F687 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,12 +101,11 @@
 				D7E538761F483B5D00D14995 /* TimelineViewController.swift */,
 				0C31EBED21A49BC600FC1131 /* PredictionsTableViewController.swift */,
 				0C31EBF721A5E32F00FC1131 /* PredictionsTableViewCell.swift */,
-				0C63E22321AE31FA0089F687 /* ConfirmationViewController.swift */,
 				0C63E21921ACB7830089F687 /* PredictionViewController.swift */,
 				0C31EBF521A5E31000FC1131 /* NotesTableViewController.swift */,
 				0C31EBF921A5E33F00FC1131 /* NotesTableViewCell.swift */,
-				0CDB00B221AC931200A5B89F /* ChartViewController.swift */,
 				0C63E21B21ACB7A50089F687 /* NoteViewController.swift */,
+				0C63E22321AE31FA0089F687 /* ConfirmationViewController.swift */,
 				0C63E22521AE320A0089F687 /* CorrectionViewController.swift */,
 			);
 			path = "View Controllers";
@@ -191,11 +157,9 @@
 		D7F485331F4AA79300348260 /* MoodProj */ = {
 			isa = PBXGroup;
 			children = (
-				0C3AB8C021B72F7500B09059 /* Not Active */,
 				0C3AB8BA21B71ED700B09059 /* DataStack.swift */,
 				0C3AB8B821B60C0600B09059 /* DataProtocol.swift */,
 				0C3AB8BC21B71F2A00B09059 /* physData.swift */,
-				0C63E21F21ADE2E90089F687 /* IntroView.swift */,
 				0CDB00B421AC9B7A00A5B89F /* MultiLineChart.swift */,
 				0CDB00AC21AC928300A5B89F /* CurveAlgorithm.swift */,
 				0CDB00AA21AC928200A5B89F /* DotCALayer.swift */,
@@ -203,8 +167,6 @@
 				0CB08576219B7A29007F2E04 /* scaling.swift */,
 				0CB08578219B81BD007F2E04 /* sorting.swift */,
 				0C31EBE721A492B200FC1131 /* drawing.swift */,
-				0C31EBE921A4961000FC1131 /* IntroVizualization.swift */,
-				0C31EBEB21A496BE00FC1131 /* timelinevizualization.swift */,
 				0C31EBFB21A6051500FC1131 /* Prediction.swift */,
 				0C31EBFD21A63FFB00FC1131 /* Note.swift */,
 				0C63E21D21ADD2B80089F687 /* SharedInformation.swift */,
@@ -352,33 +314,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C31EBFA21A5E33F00FC1131 /* NotesTableViewCell.swift in Sources */,
-				0CDB00B321AC931200A5B89F /* ChartViewController.swift in Sources */,
-				0C63E22821AE571B0089F687 /* ScrollBars.swift in Sources */,
 				0C31EBF821A5E32F00FC1131 /* PredictionsTableViewCell.swift in Sources */,
 				0C31EBFC21A6051500FC1131 /* Prediction.swift in Sources */,
-				D7E538891F483BF100D14995 /* BarEntry.swift in Sources */,
 				D7E538771F483B5D00D14995 /* TimelineViewController.swift in Sources */,
 				0C31EBEE21A49BC600FC1131 /* PredictionsTableViewController.swift in Sources */,
 				0C31EBF021A49C9100FC1131 /* IntroViewController.swift in Sources */,
-				D7E5388B1F483C4500D14995 /* BasicBarChart.swift in Sources */,
 				0C3AB8BB21B71ED700B09059 /* DataStack.swift in Sources */,
-				0C31EBEA21A4961000FC1131 /* IntroVizualization.swift in Sources */,
 				0C63E22621AE320A0089F687 /* CorrectionViewController.swift in Sources */,
 				0C31EBFE21A63FFB00FC1131 /* Note.swift in Sources */,
 				0C63E22C21AF6E2A0089F687 /* ToolTipView.swift in Sources */,
 				0C3AB8BD21B71F2A00B09059 /* physData.swift in Sources */,
-				0C31EBEC21A496BE00FC1131 /* timelinevizualization.swift in Sources */,
-				0CDB00AE21AC928300A5B89F /* LineChart.swift in Sources */,
 				0CB08577219B7A29007F2E04 /* scaling.swift in Sources */,
 				0C63E21E21ADD2B80089F687 /* SharedInformation.swift in Sources */,
 				0C31EBE821A492B200FC1131 /* drawing.swift in Sources */,
-				0C31EBF421A5E09200FC1131 /* interfacebuilding.swift in Sources */,
 				0C63E21C21ACB7A50089F687 /* NoteViewController.swift in Sources */,
 				0C63E21A21ACB7830089F687 /* PredictionViewController.swift in Sources */,
 				D7E538751F483B5D00D14995 /* AppDelegate.swift in Sources */,
 				0CDB00AD21AC928300A5B89F /* DotCALayer.swift in Sources */,
 				0C3AB8BF21B72F5000B09059 /* fbdata.swift in Sources */,
-				0C63E22021ADE2E90089F687 /* IntroView.swift in Sources */,
 				0C63E22221AE24780089F687 /* Thermometer.swift in Sources */,
 				0CDB00AF21AC928300A5B89F /* CurveAlgorithm.swift in Sources */,
 				0C63E22421AE31FA0089F687 /* ConfirmationViewController.swift in Sources */,
@@ -386,7 +339,6 @@
 				0CDB00B521AC9B7A00A5B89F /* MultiLineChart.swift in Sources */,
 				0CB08579219B81BD007F2E04 /* sorting.swift in Sources */,
 				0C3AB8B921B60C0600B09059 /* DataProtocol.swift in Sources */,
-				D7E538871F483BBF00D14995 /* BeautifulBarChart.swift in Sources */,
 				0C31EBF621A5E31000FC1131 /* NotesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

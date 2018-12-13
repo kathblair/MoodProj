@@ -5,6 +5,10 @@
 //  Created by Nguyen Vu Nhat Minh on 25/8/17.
 //  Copyright © 2017 Nguyen Vu Nhat Minh. All rights reserved.
 //
+/* reference:
+ Nguyen, Minh. 2017. “Building Your Own Chart in IOS — Part 2: Line Chart.” Medium. 2017. https://medium.com/@leonardnguyen/building-your-own-chart-in-ios-part-2-line-chart-7b5cfc7c866.
+ 
+ */
 
 import UIKit
 

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoodProj/AppDelegate.swift"
-            timestampString = "566177622.090528"
+            timestampString = "566374853.050619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
+            startingLineNumber = "5"
+            endingLineNumber = "5"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -33,6 +33,147 @@
             endingLineNumber = "9"
             landmarkName = "unknown"
             landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoodProj/View Controllers/NotesTableViewController.swift"
+            timestampString = "566374853.051116"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "6"
+            endingLineNumber = "6"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoodProj/View Controllers/PredictionsTableViewController.swift"
+            timestampString = "566374853.051219"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "unwindToPredictionList(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoodProj/View Controllers/PredictionViewController.swift"
+            timestampString = "566374853.051298"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "PredictionViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoodProj/View Controllers/NotesTableViewController.swift"
+            timestampString = "566374853.051351"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "NotesTableViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MoodProj.NotesTableViewController.notes.getter : Swift.Array&lt;MoodProj.Prediction&gt;"
+                  moduleName = "MoodProj"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kathrynblair/Documents/GitHub/MoodProj/MoodProj/View%20Controllers/NotesTableViewController.swift"
+                  timestampString = "566199824.585197"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "114">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MoodProj.NotesTableViewController.notes.setter : Swift.Array&lt;MoodProj.Prediction&gt;"
+                  moduleName = "MoodProj"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kathrynblair/Documents/GitHub/MoodProj/MoodProj/View%20Controllers/NotesTableViewController.swift"
+                  timestampString = "566199824.587432"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "128">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MoodProj.NotesTableViewController.init(style: __C.UITableViewStyle) -&gt; MoodProj.NotesTableViewController"
+                  moduleName = "MoodProj"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kathrynblair/Documents/GitHub/MoodProj/MoodProj/View%20Controllers/NotesTableViewController.swift"
+                  timestampString = "566199824.589937"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "41">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MoodProj.NotesTableViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; MoodProj.NotesTableViewController"
+                  moduleName = "MoodProj"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kathrynblair/Documents/GitHub/MoodProj/MoodProj/View%20Controllers/NotesTableViewController.swift"
+                  timestampString = "566199824.59205"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "49">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MoodProj.NotesTableViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;MoodProj.NotesTableViewController&gt;"
+                  moduleName = "MoodProj"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kathrynblair/Documents/GitHub/MoodProj/MoodProj/View%20Controllers/NotesTableViewController.swift"
+                  timestampString = "566199824.593798"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "41">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

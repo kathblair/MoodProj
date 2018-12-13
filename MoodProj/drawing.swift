@@ -3,7 +3,14 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-20.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
+
+/*
+ references
+ “Core Graphics - How to Draw Heart Shape in UIView (IOS)? -.” 2015. Stack Overflow. 2015. https://stackoverflow.com/questions/29227858/how-to-draw-heart-shape-in-uiview-ios.
+ 
+ Nguyen, Minh. 2017. “Building Your Own Chart in IOS — Part 2: Line Chart.” Medium. 2017. https://medium.com/@leonardnguyen/building-your-own-chart-in-ios-part-2-line-chart-7b5cfc7c866.
+
+ */
 //
 
 import Foundation

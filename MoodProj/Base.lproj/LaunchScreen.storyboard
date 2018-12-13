@@ -21,20 +21,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGi-q6-Zkl">
-                                <rect key="frame" x="152" y="323" width="5" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3d-2c-jUe">
+                                <rect key="frame" x="16.5" y="20" width="342" height="647"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="apploading" translatesAutoresizingMaskIntoConstraints="NO" id="zf9-cr-Tck">
+                                        <rect key="frame" x="51" y="259.5" width="240" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="128" id="1Fe-f0-l1M"/>
+                                            <constraint firstAttribute="width" constant="240" id="cca-Yw-pi4"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zf9-cr-Tck" firstAttribute="leading" secondItem="D3d-2c-jUe" secondAttribute="leading" constant="51" id="1n9-1s-Njz"/>
+                                    <constraint firstItem="zf9-cr-Tck" firstAttribute="centerX" secondItem="D3d-2c-jUe" secondAttribute="centerX" id="oJV-dE-BwA"/>
+                                    <constraint firstItem="zf9-cr-Tck" firstAttribute="centerY" secondItem="D3d-2c-jUe" secondAttribute="centerY" id="p91-N9-LK4"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="D3d-2c-jUe" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="Dsw-V1-GHx"/>
+                            <constraint firstItem="D3d-2c-jUe" firstAttribute="bottom" secondItem="xb3-aO-Qok" secondAttribute="top" id="amG-gU-09s"/>
+                            <constraint firstItem="D3d-2c-jUe" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="mEv-JZ-11k"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="apploading" width="1080" height="1073"/>
+    </resources>
 </document>

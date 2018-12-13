@@ -3,7 +3,10 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-20.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
+/*references
+
+ Begbie, Caroline. 2018. “Drawing in IOS · Custom Control.” Raywenderlich.Com. 2018. https://www.raywenderlich.com/4659-drawing-in-ios/lessons/5.
+ */
 //
 
 import Foundation
@@ -59,79 +62,55 @@ class ThermometerView: UIView {
         // make it so I can just use bounds like a reasonable person
         self.layer.addSublayer(thermoLayer)
         self.layer.addSublayer(levelLayer)
-        print(screenWidth)
+        //print(screenWidth)
         //could I pass this? or set it if there are bounds?
-        var thermow: CGFloat
-        if (bounds.width>0){
-            thermow = bounds.width
-        }else{
-            thermow = 100
-        }
+        //self.layer.borderColor = UIColor.blue.cgColor
+        //self.layer.borderWidth = 1
         
-        var thermoh: CGFloat
-        if (bounds.height>0){
-            thermoh = bounds.height
-        }else{
-            thermoh = 200
-        }
-        
-        var thermox: CGFloat
-        if (bounds.minX>0){
-            thermox = bounds.minX
-        }else{
-            thermox = CGFloat(Int(screenWidth)-Int(thermow))
-        }
-        
-        
-        var thermoy: CGFloat
-        if (bounds.minY>0){
-            thermoy = bounds.minY
-        }else{
-            thermoy = CGFloat(Int(screenHeight)-Int(thermoh)*2)
-        }
-        
-        self.frame = CGRect (x:Int(thermox)-Int(thermow/4), y:Int(thermoy), width:Int(thermow), height:Int(thermoh))
-        thermoLayer.frame = CGRect(x: bounds.minX, y:bounds.minY+44, width:bounds.width, height: bounds.height)
+        drawContents()
+    }
+    
+    public func drawContents() {
+        thermoLayer.frame = CGRect(x: 0, y:0, width:self.bounds.width, height: self.bounds.height)
         //thermoLayer.borderColor = UIColor.green.cgColor
-        //thermoLayer.borderWidth = 5
+        //thermoLayer.borderWidth = 1
+        //print(bounds.height)
         let width = bounds.width - lineWidth
-        let height = bounds.height - lineWidth / 2
-        let path = UIBezierPath(ovalIn: CGRect(x:0, y:height-width, width:width, height: width))
-        
+        let path = UIBezierPath(ovalIn: CGRect(x:0+lineWidth/2, y:bounds.maxY-width-lineWidth/2, width:width, height: width))
         //upward line
-        path.move(to: CGPoint(x: width/2, y:height-width))
-        path.addLine(to: CGPoint(x:width/2, y:-height+width))
+        path.move(to: CGPoint(x: bounds.midX, y:bounds.maxY-width-lineWidth/2))
+        path.addLine(to: CGPoint(x:bounds.midX, y:0+lineWidth/2))
         
         thermoLayer.path = path.cgPath
         thermoLayer.strokeColor = UIColor.darkGray.cgColor
+        thermoLayer.fillColor = UIColor.black.cgColor
         thermoLayer.lineWidth = lineWidth
         //thermoLayer.position.x = lineWidth / 2
         thermoLayer.lineCap = CAShapeLayerLineCap.round
         
         maskLayer.path = thermoLayer.path
-        maskLayer.lineWidth = thermoLayer.lineWidth - 6
+        maskLayer.lineWidth = thermoLayer.lineWidth - 10
         maskLayer.lineCap = thermoLayer.lineCap
-        //maskLayer.position = thermoLayer.position
         maskLayer.strokeColor = thermoLayer.strokeColor
-        //maskLayer.strokeColor = UIColor.blue.cgColor
-        maskLayer.position.y = 44
+        //maskLayer.position.y = 44
         
         maskLayer.fillColor = nil
-        //layer.addSublayer(maskLayer) // haha I will need to figure that out ....
+        //layer.addSublayer(maskLayer)
         buildLevelLayer()
         
         levelLayer.mask = maskLayer
         
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
         addGestureRecognizer(pan)
+        
     }
     
     //all of this positioning is really really weird
     private func buildLevelLayer() {
-        print("bulding level layer to: \(level)")
+        //print("bulding level layer to: \(level)")
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: bounds.minX+35, y:bounds.height+40))
-        path.addLine(to: CGPoint(x:bounds.minX+35, y:bounds.height-bounds.height-10))
+        path.move(to: CGPoint(x: bounds.width/2, y:bounds.height))
+        path.addLine(to: CGPoint(x:bounds.width/2, y:0))
         levelLayer.strokeColor = UIColor.red.cgColor
         levelLayer.path = path.cgPath
         levelLayer.lineWidth = bounds.width

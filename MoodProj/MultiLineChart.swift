@@ -3,45 +3,18 @@
 //  LineChart
 //
 //  Created by Nguyen Vu Nhat Minh on 25/8/17.
-//  Copyright © 2017 Nguyen Vu Nhat Minh. All rights reserved.
+/* reference:
+ Nguyen, Minh. 2017. “Building Your Own Chart in IOS — Part 2: Line Chart.” Medium. 2017. https://medium.com/@leonardnguyen/building-your-own-chart-in-ios-part-2-line-chart-7b5cfc7c866.
+ 
+ */
 //
 
 import UIKit
-
-struct PointEntry2 {
-    let value: Int
-    let label: String
-}
-
-struct PointEntryT {
-    let value: Int
-    let label: String
-    let time: TimeInterval
-}
 
 struct PointEntry3 {
     let value: Float
     let label: String
     let time: TimeInterval
-}
-
-//how can I do this with more than one value and how is it being used? or should I have different entries?
-extension PointEntry2: Comparable {
-    static func <(lhs: PointEntry2, rhs: PointEntry2) -> Bool {
-        return lhs.value < rhs.value
-    }
-    static func ==(lhs: PointEntry2, rhs: PointEntry2) -> Bool {
-        return lhs.value == rhs.value
-    }
-}
-
-extension PointEntryT: Comparable {
-    static func <(lhs: PointEntryT, rhs: PointEntryT) -> Bool {
-        return lhs.value < rhs.value
-    }
-    static func ==(lhs: PointEntryT, rhs: PointEntryT) -> Bool {
-        return lhs.value == rhs.value
-    }
 }
 
 extension PointEntry3: Comparable {
@@ -59,9 +32,15 @@ extension PointEntry3: Comparable {
 class MultiLineChart: UIView {
     
     //lets see if this is ok
+    //to see if I can detect when we rotate
+    override var bounds: CGRect {
+        didSet {
+            //print("changed bounds")
+        }
+    }
     
     /// gap between each point
-    let lineGap: CGFloat = 60.0
+    let lineGap: CGFloat = 80.0
     
     /// preseved space at top of the chart
     let topSpace: CGFloat = 40.0
@@ -81,10 +60,10 @@ class MultiLineChart: UIView {
     var showDots: Bool = false
 
     /// Dot inner Radius
-    var innerRadius: CGFloat = 8
+    var innerRadius: CGFloat = 5
 
     /// Dot outer Radius
-    var outerRadius: CGFloat = 12
+    var outerRadius: CGFloat = 8
     
     //this is kinda the thing I need to do to see when the stuff changes.
     //maybe I can make this an array of 3 things.
@@ -153,11 +132,6 @@ class MultiLineChart: UIView {
         setupView()
     }
     
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
-        setupView()
-    }
-    
     //MARK: setupView
     private func setupView() {
         mainLayer.addSublayer(dataLayer)
@@ -200,7 +174,7 @@ class MultiLineChart: UIView {
         //design path in layer
         let arrowLayer = CAShapeLayer()
         arrowLayer.path = arrowPath.cgPath
-        arrowLayer.fillColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        arrowLayer.fillColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         arrowLayer.shadowOpacity = 0.7
         arrowLayer.shadowOffset = CGSize(width: 0, height:5.0)
         arrowLayer.shadowRadius = 10.0
@@ -265,9 +239,9 @@ class MultiLineChart: UIView {
                         drawChart(points: tempDataPoints, strokecolor: UIColor.yellow.cgColor)
                     }
                     //I think this is all replacing the same layer.
-                    maskGradientLayer(points: bpmDataPoints, fillcolor: UIColor.red.cgColor)
-                    maskGradientLayer(points: gsrDataPoints, fillcolor: UIColor.blue.cgColor)
-                    maskGradientLayer(points: tempDataPoints, fillcolor: UIColor.yellow.cgColor)
+                    //maskGradientLayer(points: bpmDataPoints, fillcolor: UIColor.red.cgColor)
+                    //maskGradientLayer(points: gsrDataPoints, fillcolor: UIColor.blue.cgColor)
+                    //maskGradientLayer(points: tempDataPoints, fillcolor: UIColor.yellow.cgColor)
                     drawLables(foregroundcolor: UIColor.black.cgColor) // only do that for one
                 }
                 
@@ -412,9 +386,9 @@ class MultiLineChart: UIView {
             return
         }
         
-        print(bpmentries.count)
-        print(gsrentries.count)
-        print(tempentries.count)
+        //print(bpmentries.count)
+        //print(gsrentries.count)
+        //print(tempentries.count)
         
         //gridvalues - should all be the same so just use bpm because the count will be the same
         var gridValues: [CGFloat]? = nil
@@ -559,6 +533,7 @@ class MultiLineChart: UIView {
         var gsrstr = ""
         var tempstr = ""
         var moodstr = ""
+        var datestr = ""
         
         var thesedists: [CGFloat] = []
         if let dataPoints = bpmDataPoints, let dataEntries = dataEntries {
@@ -573,11 +548,11 @@ class MultiLineChart: UIView {
                     x = point.x
                     
                     if let dataStack=dataStack, let data = dataStack.data {
-                        print(bpmdata.count)
-                        print(data.count)
+                        //print(bpmdata.count)
+                        //print(data.count)
                         //maybe I can just pass the whole datastack to the modal controllers and modify there?
-                        print(bpmdata[smallesti].time)
-                        print(data[smallesti].time)
+                        //print(bpmdata[smallesti].time)
+                        //print(data[smallesti].time)
                         
                         bpmstr = String(data[smallesti].bpm)
                         gsrstr = String(Int(data[smallesti].gsr))
@@ -587,23 +562,24 @@ class MultiLineChart: UIView {
                         //also gotta set it when I set the datastack. Could I add it TO the datastack? It is already
                         let predmood = data[smallesti].returnMoodPrediction(baseline: dataStack.baseline)
                         moodstr = "\(predmood)"
+                        datestr = data[smallesti].returnDataDateTimeText()
                         
                         //if we haven't saved a prediction in a while, save this one
                         let date = Date()
                         //also are we saving data only once per second? I think yes, I think it's like a 5 second interval
-                        let prediction = Prediction(timecreated: date.timeIntervalSince1970, mood: predmood, confirmed: false, note: "", dataPoint: data[smallesti])
+                        let prediction = Prediction(timecreated: date.timeIntervalSince1970, mood: predmood, confirmed: false, note: "", time: data[smallesti].time, millis: data[smallesti].millis, gsr: data[smallesti].gsr, gsreval: data[smallesti].gsreval, bpm: data[smallesti].bpm, temp: data[smallesti].temp)
                         
                         if let preds = dataStack.predictions, let prediction = prediction {
                             if preds.count > 0 {
                                 //filter them
                                 let arr = preds.filter {
-                                    $0.dataPoint.time == prediction.dataPoint.time
+                                    $0.time == prediction.time
                                     }
                                 if arr.count>0 {
                                     // mathcing time so we don't need it.
                                 }else{
                                     //check last time, just use the most recent-ish one I guess, I should probably find a better way to check that
-                                    let timediff = prediction.dataPoint.time - preds[0].dataPoint.time
+                                    let timediff = prediction.time - preds[0].time
                                     let predinterval = 15*60 // 60 mins in seconds
                                     if Int(timediff) > predinterval {
                                         //time to save it to the stack
@@ -633,12 +609,12 @@ class MultiLineChart: UIView {
             popArrowLayer.frame.origin.x = popLineLayer.frame.maxX
         }
         //obviously replace with the info from the chart ... and ADD TIME
-        toolTipView.updateValues(bpm: bpmstr, gsr: gsrstr, temp: tempstr, mood: moodstr)
+        toolTipView.updateValues(bpm: bpmstr, gsr: gsrstr, temp: tempstr, mood: moodstr, date: datestr)
         
         CATransaction.commit()
         
         //print("Transaltion  \(translation)")
-        print("x:  \(x)")
+        //print("x:  \(x)")
         
         // now I think I need to add a layer and put some stuff in it. and I will need to find where I am on that layer.
         //maybe I want to make the layers outside of their things so I can access them better.
@@ -665,7 +641,7 @@ class MultiLineChart: UIView {
         {
             popView.alpha = 0
             //great this works so I can hide it
-            print("gesture over")
+            //print("gesture over")
         }
     }
 }

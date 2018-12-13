@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-28.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import UIKit
@@ -14,6 +13,8 @@ class ToolTipView: UIView {
     @IBOutlet weak var bpmValue: UILabel!
     @IBOutlet weak var gsrValue: UILabel!
     @IBOutlet weak var tempValue: UILabel!
+    
+    @IBOutlet weak var dateText: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -35,10 +36,12 @@ class ToolTipView: UIView {
         toolTipView.sizeToFit()
     }
     
-    public func updateValues(bpm: String, gsr: String, temp: String, mood: String){
+    public func updateValues(bpm: String, gsr: String, temp: String, mood: String, date: String){
         moodValue.text = mood
         bpmValue.text = bpm
         gsrValue.text = gsr
         tempValue.text = temp
+        dateText.text = date
+        
     }
 }

@@ -3,7 +3,7 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-13.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
+// reference: https://stackoverflow.com/questions/31274411/swift-scale-number-in-a-range-min-max
 //
 
 import Foundation

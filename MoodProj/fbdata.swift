@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-12-04.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +10,7 @@ import Firebase
 
 func getFireBaseData(finished: @escaping (NSDictionary?) -> ()) {
     
-    print("Doing something!")
+    //print("Doing something!")
     let database = Database.database().reference()
     
     var nv = NSDictionary()
@@ -49,14 +48,15 @@ func convertDictToPhysData(values: NSDictionary?)->[PhysData]{
             var temp = nv["temp"]
             var time = nv["time"]
             var millis = nv["millis"]
-            let gsrstatus = nv["gsrstatus"]
+            let gsreval = nv["gsreval"]
+            //print(gsreval);
             
             var b: Int32 = 0
             var m: Double = 0
             var te: Double = 0
             var ti: TimeInterval = 0
             var g: CGFloat = 0
-            //need one for the new gsr thing that isn't a thing yet
+            var gs: PhysData.gsrstate?
             
             //var value:Int32? = 0
             //var date = Date()
@@ -103,11 +103,31 @@ func convertDictToPhysData(values: NSDictionary?)->[PhysData]{
                     millis = millis2
                 }
             }
-            if let gsrstatus = gsrstatus {
-                //print(gsrstatus)
+            if let gsreval = gsreval  {
+                if let gsreval = gsreval {
+                    if let gsreval = (gsreval as? NSString)?.intValue{
+                        switch gsreval {
+                        case 0:
+                            gs = PhysData.gsrstate(rawValue: "none")
+                        case 1:
+                            gs = PhysData.gsrstate(rawValue: "sb")
+                        case 2:
+                            gs = PhysData.gsrstate(rawValue: "ob")
+                        case 3:
+                            gs = PhysData.gsrstate(rawValue: "ms")
+                        case 4:
+                            gs = PhysData.gsrstate(rawValue: "fs")
+                        default:
+                            gs = nil
+                        }
+                    }
+                }else{
+                    //print("nil gsreval")
+                    gs = nil
+                }
             }
             
-            if let item = (PhysData(millis: m, time: ti, gsr: g, gsreval: nil, bpm: Int(b), temp: te)){
+            if let item = (PhysData(millis: m, time: ti, gsr: g, gsreval: gs, bpm: Int(b), temp: te)){
                 result.append(item)
             }
         }
