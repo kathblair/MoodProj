@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-21.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import Foundation
@@ -38,16 +37,6 @@ class Note {
         self.noteContextStart = noteContextStart
         self.noteContextEnd = noteContextEnd
         self.text = text
-        
-        // Initialization should fail if there is no text.
-        // The name must not be empty
-        guard !(text==nil) else {
-            return nil
-        }
-        
-        guard !(noteTimeCreated==nil) else {
-            return nil
-        }
         
     }
     

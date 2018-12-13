@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-20.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import UIKit
@@ -23,11 +22,7 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
         super.viewDidLoad()
         
         if let dataStack = dataStack, let preds = dataStack.predictions {
-            predictions = preds
-            print("have dataStack")
-            print(predictions.count)
-        }else{
-            print("no data stack")
+            predictions = preds.sorted(by: { $0.time > $1.time }) 
         }
         
 
@@ -64,7 +59,7 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
         let formatter = DateFormatter()
         formatter.dateFormat = "M/d"
         let timeformatter = DateFormatter()
-        timeformatter.dateFormat = "h:mm a"
+        timeformatter.dateFormat = "h:mm:ss a"
         let date = Date(timeIntervalSince1970: prediction.time)
         //the location of all of this is messed up
         cell.dateLabel.text = formatter.string(from: date)
@@ -78,6 +73,11 @@ class PredictionsTableViewController: UITableViewController, DataProtocolClient 
         }
 
         return cell
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //super.viewDidAppear()
+        tableView.reloadData()
     }
 
 

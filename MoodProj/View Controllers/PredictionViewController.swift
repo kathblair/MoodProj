@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-26.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import UIKit
@@ -60,7 +59,7 @@ class PredictionViewController: UIViewController, DataProtocolClient, UITextView
             //oh I need to pass it the data point too
             bpmValueLabel.text = "\(prediction.bpm)"
             gsrValueLabel.text = "\(prediction.gsr)"
-            tempValueLabel.text =  "\(prediction.temp) °C"
+            tempValueLabel.text =  "\(prediction.temp.rounded(toPlaces: 1)) °C"
             
             // need to decide how I'm implementing the notes and then get the associated note field or whatever
             if let note = prediction.note {
@@ -82,7 +81,7 @@ class PredictionViewController: UIViewController, DataProtocolClient, UITextView
     func textViewShouldReturn(_ textView: UITextView) -> Bool {
         // Hide the keyboard.
         textView.resignFirstResponder()
-        print("should return text field")
+        //print("should return text field")
         return true
     }
     

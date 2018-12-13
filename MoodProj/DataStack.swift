@@ -3,8 +3,13 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-21.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
-//
+
+/*
+ resources:
+ 
+ Obusek, Andy. 2016. “Dependency Injection with Storyboards.” Cleanswifter.Com. 2016. http://cleanswifter.com/dependency-injection-with-storyboards
+ 
+ */
 
 import Foundation
 import UIKit
@@ -27,7 +32,10 @@ class DataStack {
     //MARK: Initialization
     
     init?(data: [PhysData]?, predictions: [Prediction]?) {
-        self.data = data
+        self.data = data?.sorted {
+            //sorting function timesort in sorting.swift
+            return timesort(one: $0.time as AnyObject, two: $1.time as AnyObject)
+        }
         //maybe I could get the baseline values here? would calulate once each time it was run
         if let data = data {
             var bpmavg = 0
@@ -47,14 +55,23 @@ class DataStack {
             let gsra = Float(gsravg/last10seconds.count)
             self.baseline = ["bpm":bpma, "gsr":gsra, "temp":tempa]
         }
-        self.predictions = predictions // where I'm saving the predictions for the whole schlomozzle
+        //sort the predictions
+        self.predictions = predictions?.sorted {
+            //sorting function timesort in sorting.swift
+            return timesort(one: $0.time as AnyObject, two: $1.time as AnyObject)
+        }
     }
     
     //Mark: Saving and loading
     //Save predictions to file, should update with Firebase --> called when I change the prediction notes, make new predictions, and also if the app resigns or is terminated
     public func savePredictions(predictions:[Prediction]) {
+        //sort the predictions
+        let sortedpredictions = predictions.sorted {
+            //sorting function timesort in sorting.swift
+            return timesort(one: $0.time as AnyObject, two: $1.time as AnyObject)
+        }
         
-         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(predictions, toFile: DataStack.PredictionsArchiveURL.path)
+         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(sortedpredictions, toFile: DataStack.PredictionsArchiveURL.path)
          if isSuccessfulSave {
          os_log("Predictions successfully saved.", log: OSLog.default, type: .debug)
          } else {
@@ -64,7 +81,7 @@ class DataStack {
     
     //Load predictions --> called from the appdelegate. Will also need to update this with FB data stuff
     public func loadPredictions() -> [Prediction]? {
-        print("trying to load predictions")
+        //print("trying to load predictions")
         return NSKeyedUnarchiver.unarchiveObject(withFile: DataStack.PredictionsArchiveURL.path) as? [Prediction]
     }
     

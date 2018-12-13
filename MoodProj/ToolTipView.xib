@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ToolTipView" customModule="MoodProj" customModuleProvider="target">
             <connections>
                 <outlet property="bpmValue" destination="P0n-uS-0Tz" id="wcs-pG-vKt"/>
+                <outlet property="dateText" destination="WvT-bA-YkG" id="f8P-b7-NlQ"/>
                 <outlet property="gsrValue" destination="1wX-RI-2yU" id="H2B-ud-Qtt"/>
                 <outlet property="moodValue" destination="Dgp-P5-uaQ" id="y7W-dy-7CZ"/>
                 <outlet property="tempValue" destination="cbN-hU-HWA" id="Z3g-T7-gXC"/>
@@ -27,8 +28,8 @@
                     <rect key="frame" x="0.0" y="0.0" width="150" height="188"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" id="pHx-aC-BM1">
-                            <rect key="frame" x="0.0" y="0.0" width="150" height="123"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" id="pHx-aC-BM1">
+                            <rect key="frame" x="0.0" y="8" width="150" height="165"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="November 12 2019 9:00pm" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WvT-bA-YkG">
@@ -38,18 +39,18 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <stackView opaque="NO" contentMode="scaleToFill" id="a42-2c-Wmz">
-                                    <rect key="frame" x="0.0" y="41" width="150" height="20.5"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" id="a42-2c-Wmz">
+                                    <rect key="frame" x="0.0" y="51.5" width="150" height="20.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Mood: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Foj-s7-Spi">
-                                            <rect key="frame" x="0.0" y="0.0" width="102.5" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Mood:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Foj-s7-Spi">
+                                            <rect key="frame" x="0.0" y="2" width="102.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="happy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dgp-P5-uaQ">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="happy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dgp-P5-uaQ">
                                             <rect key="frame" x="102.5" y="0.0" width="47.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -58,8 +59,8 @@
                                         </label>
                                     </subviews>
                                 </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" id="gcY-um-Z7Q">
-                                    <rect key="frame" x="0.0" y="61.5" width="150" height="20.5"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" id="gcY-um-Z7Q">
+                                    <rect key="frame" x="0.0" y="82.5" width="150" height="20.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BPM:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wfh-i7-riR">
@@ -79,7 +80,7 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" id="rkM-WU-rGD">
-                                    <rect key="frame" x="0.0" y="82" width="150" height="20.5"/>
+                                    <rect key="frame" x="0.0" y="113.5" width="150" height="20.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GSR: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lUO-gH-Enl">
@@ -99,7 +100,7 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" id="9tA-ch-pQN">
-                                    <rect key="frame" x="0.0" y="102.5" width="150" height="20.5"/>
+                                    <rect key="frame" x="0.0" y="144.5" width="150" height="20.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PAn-GY-TUw">
@@ -128,7 +129,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-42" y="-187"/>
+            <point key="canvasLocation" x="-43.200000000000003" y="-187.1064467766117"/>
         </view>
     </objects>
 </document>

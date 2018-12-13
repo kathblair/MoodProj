@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  BarChart
-//
-//  Created by Nguyen Vu Nhat Minh on 19/8/17.
-//  Copyright © 2017 Nguyen Vu Nhat Minh. All rights reserved.
-//
 
 import UIKit
 import Firebase
@@ -26,9 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
-        
-        //need to build this
-        //this worked. I think I'll just have problems the first time I want to make some predictions and save them.
+
         
         getFireBaseData { (values) -> Void in
             self.data = convertDictToPhysData(values: values)
@@ -43,17 +34,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.loadSamplePredictions()
             }
              */
-            //initialize with empty predictions ... maybe I should not have this function on the datastack
+            //initialize with empty predictions
             self.dataStack = DataStack(data: self.data, predictions: self.predictions)
             if let dataStack = self.dataStack {
                 let savedPredictions = dataStack.loadPredictions() // can I do this? Right now it doesn't need to be on the actual datastack
                 if let savedPredictions = savedPredictions {
+                    print("have saved predictions")
                     self.predictions = savedPredictions
                     dataStack.predictions = self.predictions
                 }else{
-                    self.loadSamplePredictions()
+                    print("no saved predictions")
+                    self.predictions = self.loadSamplePredictions()
+                    dataStack.predictions = self.predictions
                 }
                 
+                //print(dataStack.predictions)
             }
             if let tab = self.window?.rootViewController as? UITabBarController {
                     for child in tab.viewControllers ?? [] {
@@ -108,14 +103,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK: Private Methods
     
-    private func loadSamplePredictions() {
+    private func loadSamplePredictions()-> [Prediction] {
         // make one to load from the DB ... and one to save from a set of data to a prediction.
         print("Datas:\(self.data.count)")
         //I think they are all different, so that's good
         
         let data1 = self.data[0]
-        let data2 = self.data[1]
-        let data3 = self.data[2]
+        let data2 = self.data[100]
+        let data3 = self.data[200]
         //could append those to data and get them
         guard let prediction1 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -100).timeIntervalSince1970, mood: Prediction.moods.happy, confirmed: true, note: "This is a note for prediction 1", time: data1.time, millis: data1.millis, gsr: data1.gsr, gsreval: data1.gsreval, bpm:data1.bpm, temp: data1.temp) else {
                 fatalError("Unable to instantiate prediction1")
@@ -127,8 +122,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let prediction3 = Prediction(timecreated: Date.init(timeIntervalSinceNow: -100).timeIntervalSince1970,  mood: Prediction.moods.angry, confirmed: nil, note: "this is a note for prediction 3", time: data3.time, millis: data3.millis, gsr: data3.gsr, gsreval: data3.gsreval, bpm:data3.bpm, temp: data3.temp) else {
                 fatalError("Unable to instantiate prediction3")
             }
-        self.predictions += [prediction1, prediction2, prediction3]
-    
+        let predictions = [prediction1, prediction2, prediction3]
+        print("ok added sample predictions")
+        return predictions
     }
 }
 

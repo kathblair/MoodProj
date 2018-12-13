@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-27.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import UIKit
@@ -37,7 +36,7 @@ class ConfirmationViewController: UIViewController, DataProtocolClient, UITextVi
             prediction.originalmood = prediction.mood
             
             if let originalText = confirmationInstructionText.text {
-                print("have originaltext")
+                //print("have originaltext")
                 let range = NSRange(location: 0, length: originalText.utf16.count)
                 let regex = try! NSRegularExpression(pattern: "\\[\\[mood\\]\\]")
                 let moodtext = prediction.returnRredictionMoodText()

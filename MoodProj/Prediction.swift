@@ -3,7 +3,11 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-21.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
+/*references
+ 
+ Pollreisz, David, and Nima Taherinejad. 2017. “A Simple Algorithm for Emotion Recognition , Using Physiological Signals of a Smart Watch,” 2353–56.
+ 
+ */
 //
 
 import Foundation
@@ -63,9 +67,17 @@ class Prediction: NSObject, NSCoding {// probably will need to add codable
 
     ]
     
+    public static var GSRStrings = [
+        "fs":"Few Small Peaks",
+        "ms":"Man Small Peaks",
+        "sb":"Some Big Peaks",
+        "ob":"One Big Peaks",
+        "none":"No Peaks"
+        
+    ]
+    
     //MARK: Initialization
     
-    //init?(timeofprediction: TimeInterval, timecreated: TimeInterval?, mood: moods, confirmed: Bool?, note: String?) {
     init?(timecreated: TimeInterval?, mood: moods, confirmed: Bool?, note: String?, time: TimeInterval, millis: Double, gsr: CGFloat, gsreval: PhysData.gsrstate?, bpm: Int, temp: Double) {
         self.timecreated = timecreated
         self.mood = mood
@@ -86,7 +98,7 @@ class Prediction: NSObject, NSCoding {// probably will need to add codable
     public func returnPredictionTimeText() -> String {
         // returns a string of the prediction time
         let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
+        formatter.dateFormat = "h:mm:ss a"
         let date = Date(timeIntervalSince1970: self.time)
         return formatter.string(from: date)
     }
@@ -101,7 +113,7 @@ class Prediction: NSObject, NSCoding {// probably will need to add codable
     
     public func returnPredictionDateTimeText() -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "M/d h:mm a"
+        formatter.dateFormat = "M/d h:mm:ss a"
         let date = Date(timeIntervalSince1970: self.time)
         return formatter.string(from: date)
     }
@@ -110,7 +122,7 @@ class Prediction: NSObject, NSCoding {// probably will need to add codable
     public func returnPredictionCreatedTimeText() -> String? {
         // returns a string of the prediction time
         let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
+        formatter.dateFormat = "h:mm:ss a"
         if let tc = self.timecreated {
             let date = Date(timeIntervalSince1970: tc)
             return formatter.string(from: date)
@@ -133,7 +145,7 @@ class Prediction: NSObject, NSCoding {// probably will need to add codable
     
     public func returnPredictionCreatedDateTimeText() -> String? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "M/d h:mm a"
+        formatter.dateFormat = "M/d h:mm:ss a"
         if let tc = self.timecreated {
             let date = Date(timeIntervalSince1970: tc)
             return formatter.string(from: date)
@@ -145,6 +157,31 @@ class Prediction: NSObject, NSCoding {// probably will need to add codable
     public func returnRredictionMoodText() -> String {
         return "\(String(describing: self.mood))"
     }
+    
+    public func returnRredictionMoodString() -> String {
+        if let text = Prediction.MoodStrings[self.returnRredictionMoodText()]{
+            return text
+        }else{
+            return "no string"
+        }
+    }
+    
+    public func returnRredictionGSRText() -> String {
+        if let state = self.gsreval{
+            return "\(state)"
+        }else{
+            return ""
+        }
+    }
+    
+    public func returnRredictionGSRString() -> String {
+        if let text = Prediction.GSRStrings[self.returnRredictionGSRText()]{
+            return text
+        }else{
+            return "no string"
+        }
+    }
+
     
     public func returnPredictionConfirmedText() -> String {
         var text = ""

@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-21.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import UIKit
@@ -21,7 +20,7 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(notes)
+        //print(notes)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -42,6 +41,11 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
             //going to have to update predictions at the end
         }
         print(notes)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //super.viewDidAppear()
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -169,16 +173,15 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
                 tableView.reloadRows(at: [selectedIndexPath], with: .none)
             }
             else {
-                // Add a new prediction. I will actually never be doing this, but whatever
+                // Add a new prediction. Not a case that actually happens
                 let newIndexPath = IndexPath(row: notes.count, section: 0)
                 notes.append(note)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
             
-            //save the predictions ... can be done on any prediction, it will save all of them ... should I do it on the data stack instead?
-            //this would be where I should merge my notes and so on
+            //save the predictions ...
             for note in notes {
-                print(note.note)
+                //print(note.note)
                 //find the appropriate predictions .. could match by more than one thing
                 if let predictions = predictions {
                     for var p in predictions {
@@ -195,21 +198,5 @@ class NotesTableViewController: UITableViewController, DataProtocolClient {
     }
     
     //MARK: Private Methods
-    //moving this to appdelegate.
-    private func loadSampleNotes() {
-        // make one to load from the DB ... and something to save added notes.
-        
-        
-        guard let note1 = Note(noteTimeCreated: NSDate().timeIntervalSince1970, noteTimeReferenced: NSDate().timeIntervalSince1970, noteContext: Note.contexts.timeline, noteContextStart: NSDate().timeIntervalSince1970, noteContextEnd:NSDate().timeIntervalSince1970, text: "this is a note about a thing that is happening with my mood.") else {
-            fatalError("Unable to instantiate note1")
-        }
-        guard let note2 = Note(noteTimeCreated: NSDate().timeIntervalSince1970, noteTimeReferenced: NSDate().timeIntervalSince1970, noteContext: Note.contexts.predictions, noteContextStart: NSDate().timeIntervalSince1970, noteContextEnd:NSDate().timeIntervalSince1970, text: "this is a second note about a thing that is happening with my mood.") else {
-            fatalError("Unable to instantiate note2")
-        }
-        
-        guard let note3 = Note(noteTimeCreated: NSDate().timeIntervalSince1970, noteTimeReferenced: NSDate().timeIntervalSince1970, noteContext: Note.contexts.timeline, noteContextStart: NSDate().timeIntervalSince1970, noteContextEnd:NSDate().timeIntervalSince1970, text: "this is a third note about a thing that is happening with my mood.") else {
-            fatalError("Unable to instantiate note3")
-        }
-    }
 
 }

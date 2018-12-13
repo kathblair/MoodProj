@@ -3,7 +3,6 @@
 //  MoodProj
 //
 //  Created by Kathryn Blair on 2018-11-27.
-//  Copyright © 2018 Nguyen Vu Nhat Minh. All rights reserved.
 //
 
 import UIKit
@@ -53,7 +52,8 @@ correctionMoodPicker.insertSegment(withTitle: moodstring.value, at: i, animated:
             //select the correct one for the current mood
             let mstr = prediction.returnRredictionMoodText()
            
-            if let index = indexes[mstr] { correctionMoodPicker.selectedSegmentIndex = index
+            if let index = indexes[mstr] {
+                correctionMoodPicker.selectedSegmentIndex = index
             }
             
             if let note = prediction.note {
@@ -80,7 +80,26 @@ correctionMoodPicker.insertSegment(withTitle: moodstring.value, at: i, animated:
         correctionSaveButton.isEnabled = !(text.isEmpty || text == originnote)
         //add checking if one of the moods is selected. Actually no don't, if you just click the save button and nothing else, then you have actually CONFIRMED the prediction.
     }
-
+    
+    
+    @IBAction func changedCorrect(_ sender: Any) {
+        if let prediction = prediction{
+            let index = correctionMoodPicker.selectedSegmentIndex
+            if let text = correctionMoodPicker.titleForSegment(at: index){
+                for moodstring in Prediction.MoodStrings {
+                    if(moodstring.value==text){
+                        //print(moodstring.key)
+                        if let newmood = Prediction.moods(rawValue: moodstring.key) {
+                            prediction.mood = newmood
+                        }
+                    }
+                }
+            }
+            
+        }
+        //print(prediction?.mood)
+    }
+    
     
     // MARK: - Navigation
 
@@ -96,7 +115,7 @@ correctionMoodPicker.insertSegment(withTitle: moodstring.value, at: i, animated:
             prediction.originalmood = prediction.mood
                 let selectedi = correctionMoodPicker.selectedSegmentIndex
             let iis = (indexes as NSDictionary).allKeys(for: selectedi) as! [String]
-            print(iis.count)
+            //print(iis.count)
             let newmood = Prediction.moods(rawValue: iis[0])
             if let newmood = newmood, prediction.mood != newmood {
                 //the user changed the mood
